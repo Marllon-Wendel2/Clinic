@@ -1,0 +1,168 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "./generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgres"
+}
+
+enum UserRole {
+  admin
+  dentist
+}
+
+enum ConsultaStatus {
+  agendado
+  confirmado
+  em_atendimento
+  concluido
+  cancelado
+  faltou
+}
+
+enum FinanceiroTipo {
+  receita
+  despesa
+}
+
+enum FinanceiroStatus {
+  pago
+  pendente
+  cancelado
+  atrasado
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  role      UserRole
+  nome      String
+  cro       String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  consultasAtendidas  Consulta[] @relation("Dentista")
+  pacientesVinculados Paciente[] @relation("UsuarioResponsavel")
+
+  @@map("usuarios")
+}
+
+model Paciente {
+  id             Int      @id @default(autoincrement())
+  nome           String
+  cpf            String?  @unique
+  telefone       String?
+  email          String?
+  dataNascimento String?  @map("data_nascimento")
+  endereco       String?
+  bairro         String?
+  cidade         String?
+  cep            String?
+  observacoes    String?
+  alergias       String?
+  medicamentos   String?
+  doencas        String?
+  usuarioId      Int?     @map("usuario_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @default(now()) @map("updated_at")
+
+  usuarioResponsavel     Usuario?               @relation("UsuarioResponsavel", fields: [usuarioId], references: [id], onDelete: SetNull)
+  consultas              Consulta[]
+  procedimentos          Procedimento[]
+  lancamentosFinanceiros LancamentoFinanceiro[]
+  odontogramaRegistros   Odontograma[]
+
+  @@map("pacientes")
+}
+
+model Consulta {
+  id           Int      @id @default(autoincrement())
+  pacienteId   Int      @map("paciente_id")
+  data         String
+  hora         String
+  duracao      Int      @default(30)
+  status       ConsultaStatus @default(agendado)
+  procedimento String?
+  observacoes  String?
+  valor        Float    @default(0)
+  dentistaId   Int?     @map("dentista_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  paciente               Paciente               @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  dentista               Usuario?               @relation("Dentista", fields: [dentistaId], references: [id], onDelete: SetNull)
+  procedimentos          Procedimento[]
+  lancamentosFinanceiros LancamentoFinanceiro[]
+
+  @@map("consultas")
+}
+
+model Procedimento {
+  id           Int      @id @default(autoincrement())
+  pacienteId   Int      @map("paciente_id")
+  consultaId   Int?     @map("consulta_id")
+  dente        String?
+  procedimento String
+  descricao    String?
+  valor        Float    @default(0)
+  data         String   @default(dbgenerated("now()::date"))
+  status       String   @default("concluido")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  paciente Paciente  @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  consulta Consulta? @relation(fields: [consultaId], references: [id], onDelete: SetNull)
+
+  @@map("procedimentos")
+}
+
+model Odontograma {
+  id         Int      @id @default(autoincrement())
+  pacienteId Int      @map("paciente_id")
+  dente      String
+  face       String?
+  condicao   String
+  observacao String?
+  data       String   @default(dbgenerated("now()::date"))
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  paciente Paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+
+  @@map("odontograma")
+}
+
+model LancamentoFinanceiro {
+  id             Int      @id @default(autoincrement())
+  tipo           FinanceiroTipo
+  descricao      String
+  valor          Float
+  data           String   @default(dbgenerated("now()::date"))
+  categoria      String?
+  pacienteId     Int?     @map("paciente_id")
+  consultaId     Int?     @map("consulta_id")
+  status         FinanceiroStatus @default(pago)
+  formaPagamento String?  @map("forma_pagamento")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  paciente Paciente? @relation(fields: [pacienteId], references: [id], onDelete: SetNull)
+  consulta Consulta? @relation(fields: [consultaId], references: [id], onDelete: SetNull)
+
+  @@map("financeiro")
+}
+
+model CatalogoProcedimento {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  valor     Float    @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("catalogo_procedimentos")
+}
+
+model Config {
+  id    Int     @id @default(autoincrement())
+  chave String  @unique
+  valor String?
+
+  @@map("config")
+}
