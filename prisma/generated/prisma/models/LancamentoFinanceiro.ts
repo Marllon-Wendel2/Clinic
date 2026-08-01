@@ -27,42 +27,36 @@ export type AggregateLancamentoFinanceiro = {
 }
 
 export type LancamentoFinanceiroAvgAggregateOutputType = {
-  id: number | null
   valor: number | null
-  pacienteId: number | null
-  consultaId: number | null
 }
 
 export type LancamentoFinanceiroSumAggregateOutputType = {
-  id: number | null
   valor: number | null
-  pacienteId: number | null
-  consultaId: number | null
 }
 
 export type LancamentoFinanceiroMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   tipo: $Enums.FinanceiroTipo | null
   descricao: string | null
   valor: number | null
   data: string | null
   categoria: string | null
-  pacienteId: number | null
-  consultaId: number | null
+  pacienteId: string | null
+  consultaId: string | null
   status: $Enums.FinanceiroStatus | null
   formaPagamento: string | null
   createdAt: Date | null
 }
 
 export type LancamentoFinanceiroMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   tipo: $Enums.FinanceiroTipo | null
   descricao: string | null
   valor: number | null
   data: string | null
   categoria: string | null
-  pacienteId: number | null
-  consultaId: number | null
+  pacienteId: string | null
+  consultaId: string | null
   status: $Enums.FinanceiroStatus | null
   formaPagamento: string | null
   createdAt: Date | null
@@ -85,17 +79,11 @@ export type LancamentoFinanceiroCountAggregateOutputType = {
 
 
 export type LancamentoFinanceiroAvgAggregateInputType = {
-  id?: true
   valor?: true
-  pacienteId?: true
-  consultaId?: true
 }
 
 export type LancamentoFinanceiroSumAggregateInputType = {
-  id?: true
   valor?: true
-  pacienteId?: true
-  consultaId?: true
 }
 
 export type LancamentoFinanceiroMinAggregateInputType = {
@@ -228,14 +216,14 @@ export type LancamentoFinanceiroGroupByArgs<ExtArgs extends runtime.Types.Extens
 }
 
 export type LancamentoFinanceiroGroupByOutputType = {
-  id: number
+  id: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data: string
   categoria: string | null
-  pacienteId: number | null
-  consultaId: number | null
+  pacienteId: string | null
+  consultaId: string | null
   status: $Enums.FinanceiroStatus
   formaPagamento: string | null
   createdAt: Date
@@ -265,14 +253,14 @@ export type LancamentoFinanceiroWhereInput = {
   AND?: Prisma.LancamentoFinanceiroWhereInput | Prisma.LancamentoFinanceiroWhereInput[]
   OR?: Prisma.LancamentoFinanceiroWhereInput[]
   NOT?: Prisma.LancamentoFinanceiroWhereInput | Prisma.LancamentoFinanceiroWhereInput[]
-  id?: Prisma.IntFilter<"LancamentoFinanceiro"> | number
+  id?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   tipo?: Prisma.EnumFinanceiroTipoFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   valor?: Prisma.FloatFilter<"LancamentoFinanceiro"> | number
   data?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   categoria?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
-  pacienteId?: Prisma.IntNullableFilter<"LancamentoFinanceiro"> | number | null
-  consultaId?: Prisma.IntNullableFilter<"LancamentoFinanceiro"> | number | null
+  pacienteId?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
+  consultaId?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
   status?: Prisma.EnumFinanceiroStatusFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LancamentoFinanceiro"> | Date | string
@@ -297,7 +285,7 @@ export type LancamentoFinanceiroOrderByWithRelationInput = {
 }
 
 export type LancamentoFinanceiroWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.LancamentoFinanceiroWhereInput | Prisma.LancamentoFinanceiroWhereInput[]
   OR?: Prisma.LancamentoFinanceiroWhereInput[]
   NOT?: Prisma.LancamentoFinanceiroWhereInput | Prisma.LancamentoFinanceiroWhereInput[]
@@ -306,8 +294,8 @@ export type LancamentoFinanceiroWhereUniqueInput = Prisma.AtLeast<{
   valor?: Prisma.FloatFilter<"LancamentoFinanceiro"> | number
   data?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   categoria?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
-  pacienteId?: Prisma.IntNullableFilter<"LancamentoFinanceiro"> | number | null
-  consultaId?: Prisma.IntNullableFilter<"LancamentoFinanceiro"> | number | null
+  pacienteId?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
+  consultaId?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
   status?: Prisma.EnumFinanceiroStatusFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LancamentoFinanceiro"> | Date | string
@@ -338,20 +326,21 @@ export type LancamentoFinanceiroScalarWhereWithAggregatesInput = {
   AND?: Prisma.LancamentoFinanceiroScalarWhereWithAggregatesInput | Prisma.LancamentoFinanceiroScalarWhereWithAggregatesInput[]
   OR?: Prisma.LancamentoFinanceiroScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LancamentoFinanceiroScalarWhereWithAggregatesInput | Prisma.LancamentoFinanceiroScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"LancamentoFinanceiro"> | number
+  id?: Prisma.StringWithAggregatesFilter<"LancamentoFinanceiro"> | string
   tipo?: Prisma.EnumFinanceiroTipoWithAggregatesFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroTipo
   descricao?: Prisma.StringWithAggregatesFilter<"LancamentoFinanceiro"> | string
   valor?: Prisma.FloatWithAggregatesFilter<"LancamentoFinanceiro"> | number
   data?: Prisma.StringWithAggregatesFilter<"LancamentoFinanceiro"> | string
   categoria?: Prisma.StringNullableWithAggregatesFilter<"LancamentoFinanceiro"> | string | null
-  pacienteId?: Prisma.IntNullableWithAggregatesFilter<"LancamentoFinanceiro"> | number | null
-  consultaId?: Prisma.IntNullableWithAggregatesFilter<"LancamentoFinanceiro"> | number | null
+  pacienteId?: Prisma.StringNullableWithAggregatesFilter<"LancamentoFinanceiro"> | string | null
+  consultaId?: Prisma.StringNullableWithAggregatesFilter<"LancamentoFinanceiro"> | string | null
   status?: Prisma.EnumFinanceiroStatusWithAggregatesFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.StringNullableWithAggregatesFilter<"LancamentoFinanceiro"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LancamentoFinanceiro"> | Date | string
 }
 
 export type LancamentoFinanceiroCreateInput = {
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
@@ -365,20 +354,21 @@ export type LancamentoFinanceiroCreateInput = {
 }
 
 export type LancamentoFinanceiroUncheckedCreateInput = {
-  id?: number
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data?: string
   categoria?: string | null
-  pacienteId?: number | null
-  consultaId?: number | null
+  pacienteId?: string | null
+  consultaId?: string | null
   status?: $Enums.FinanceiroStatus
   formaPagamento?: string | null
   createdAt?: Date | string
 }
 
 export type LancamentoFinanceiroUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -392,34 +382,35 @@ export type LancamentoFinanceiroUpdateInput = {
 }
 
 export type LancamentoFinanceiroUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data?: Prisma.StringFieldUpdateOperationsInput | string
   categoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pacienteId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pacienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumFinanceiroStatusFieldUpdateOperationsInput | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LancamentoFinanceiroCreateManyInput = {
-  id?: number
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data?: string
   categoria?: string | null
-  pacienteId?: number | null
-  consultaId?: number | null
+  pacienteId?: string | null
+  consultaId?: string | null
   status?: $Enums.FinanceiroStatus
   formaPagamento?: string | null
   createdAt?: Date | string
 }
 
 export type LancamentoFinanceiroUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -431,14 +422,14 @@ export type LancamentoFinanceiroUpdateManyMutationInput = {
 }
 
 export type LancamentoFinanceiroUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data?: Prisma.StringFieldUpdateOperationsInput | string
   categoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pacienteId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pacienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumFinanceiroStatusFieldUpdateOperationsInput | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -469,10 +460,7 @@ export type LancamentoFinanceiroCountOrderByAggregateInput = {
 }
 
 export type LancamentoFinanceiroAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   valor?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
-  consultaId?: Prisma.SortOrder
 }
 
 export type LancamentoFinanceiroMaxOrderByAggregateInput = {
@@ -504,10 +492,7 @@ export type LancamentoFinanceiroMinOrderByAggregateInput = {
 }
 
 export type LancamentoFinanceiroSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   valor?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
-  consultaId?: Prisma.SortOrder
 }
 
 export type LancamentoFinanceiroCreateNestedManyWithoutPacienteInput = {
@@ -603,6 +588,7 @@ export type EnumFinanceiroStatusFieldUpdateOperationsInput = {
 }
 
 export type LancamentoFinanceiroCreateWithoutPacienteInput = {
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
@@ -615,13 +601,13 @@ export type LancamentoFinanceiroCreateWithoutPacienteInput = {
 }
 
 export type LancamentoFinanceiroUncheckedCreateWithoutPacienteInput = {
-  id?: number
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data?: string
   categoria?: string | null
-  consultaId?: number | null
+  consultaId?: string | null
   status?: $Enums.FinanceiroStatus
   formaPagamento?: string | null
   createdAt?: Date | string
@@ -657,20 +643,21 @@ export type LancamentoFinanceiroScalarWhereInput = {
   AND?: Prisma.LancamentoFinanceiroScalarWhereInput | Prisma.LancamentoFinanceiroScalarWhereInput[]
   OR?: Prisma.LancamentoFinanceiroScalarWhereInput[]
   NOT?: Prisma.LancamentoFinanceiroScalarWhereInput | Prisma.LancamentoFinanceiroScalarWhereInput[]
-  id?: Prisma.IntFilter<"LancamentoFinanceiro"> | number
+  id?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   tipo?: Prisma.EnumFinanceiroTipoFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   valor?: Prisma.FloatFilter<"LancamentoFinanceiro"> | number
   data?: Prisma.StringFilter<"LancamentoFinanceiro"> | string
   categoria?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
-  pacienteId?: Prisma.IntNullableFilter<"LancamentoFinanceiro"> | number | null
-  consultaId?: Prisma.IntNullableFilter<"LancamentoFinanceiro"> | number | null
+  pacienteId?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
+  consultaId?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
   status?: Prisma.EnumFinanceiroStatusFilter<"LancamentoFinanceiro"> | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.StringNullableFilter<"LancamentoFinanceiro"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LancamentoFinanceiro"> | Date | string
 }
 
 export type LancamentoFinanceiroCreateWithoutConsultaInput = {
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
@@ -683,13 +670,13 @@ export type LancamentoFinanceiroCreateWithoutConsultaInput = {
 }
 
 export type LancamentoFinanceiroUncheckedCreateWithoutConsultaInput = {
-  id?: number
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data?: string
   categoria?: string | null
-  pacienteId?: number | null
+  pacienteId?: string | null
   status?: $Enums.FinanceiroStatus
   formaPagamento?: string | null
   createdAt?: Date | string
@@ -722,19 +709,20 @@ export type LancamentoFinanceiroUpdateManyWithWhereWithoutConsultaInput = {
 }
 
 export type LancamentoFinanceiroCreateManyPacienteInput = {
-  id?: number
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data?: string
   categoria?: string | null
-  consultaId?: number | null
+  consultaId?: string | null
   status?: $Enums.FinanceiroStatus
   formaPagamento?: string | null
   createdAt?: Date | string
 }
 
 export type LancamentoFinanceiroUpdateWithoutPacienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -747,45 +735,46 @@ export type LancamentoFinanceiroUpdateWithoutPacienteInput = {
 }
 
 export type LancamentoFinanceiroUncheckedUpdateWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data?: Prisma.StringFieldUpdateOperationsInput | string
   categoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumFinanceiroStatusFieldUpdateOperationsInput | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LancamentoFinanceiroUncheckedUpdateManyWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data?: Prisma.StringFieldUpdateOperationsInput | string
   categoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumFinanceiroStatusFieldUpdateOperationsInput | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LancamentoFinanceiroCreateManyConsultaInput = {
-  id?: number
+  id?: string
   tipo: $Enums.FinanceiroTipo
   descricao: string
   valor: number
   data?: string
   categoria?: string | null
-  pacienteId?: number | null
+  pacienteId?: string | null
   status?: $Enums.FinanceiroStatus
   formaPagamento?: string | null
   createdAt?: Date | string
 }
 
 export type LancamentoFinanceiroUpdateWithoutConsultaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -798,26 +787,26 @@ export type LancamentoFinanceiroUpdateWithoutConsultaInput = {
 }
 
 export type LancamentoFinanceiroUncheckedUpdateWithoutConsultaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data?: Prisma.StringFieldUpdateOperationsInput | string
   categoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pacienteId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pacienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumFinanceiroStatusFieldUpdateOperationsInput | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LancamentoFinanceiroUncheckedUpdateManyWithoutConsultaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.EnumFinanceiroTipoFieldUpdateOperationsInput | $Enums.FinanceiroTipo
   descricao?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data?: Prisma.StringFieldUpdateOperationsInput | string
   categoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pacienteId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pacienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumFinanceiroStatusFieldUpdateOperationsInput | $Enums.FinanceiroStatus
   formaPagamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -908,14 +897,14 @@ export type $LancamentoFinanceiroPayload<ExtArgs extends runtime.Types.Extension
     consulta: Prisma.$ConsultaPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     tipo: $Enums.FinanceiroTipo
     descricao: string
     valor: number
     data: string
     categoria: string | null
-    pacienteId: number | null
-    consultaId: number | null
+    pacienteId: string | null
+    consultaId: string | null
     status: $Enums.FinanceiroStatus
     formaPagamento: string | null
     createdAt: Date
@@ -1344,14 +1333,14 @@ export interface Prisma__LancamentoFinanceiroClient<T, Null = never, ExtArgs ext
  * Fields of the LancamentoFinanceiro model
  */
 export interface LancamentoFinanceiroFieldRefs {
-  readonly id: Prisma.FieldRef<"LancamentoFinanceiro", 'Int'>
+  readonly id: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
   readonly tipo: Prisma.FieldRef<"LancamentoFinanceiro", 'FinanceiroTipo'>
   readonly descricao: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
   readonly valor: Prisma.FieldRef<"LancamentoFinanceiro", 'Float'>
   readonly data: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
   readonly categoria: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
-  readonly pacienteId: Prisma.FieldRef<"LancamentoFinanceiro", 'Int'>
-  readonly consultaId: Prisma.FieldRef<"LancamentoFinanceiro", 'Int'>
+  readonly pacienteId: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
+  readonly consultaId: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
   readonly status: Prisma.FieldRef<"LancamentoFinanceiro", 'FinanceiroStatus'>
   readonly formaPagamento: Prisma.FieldRef<"LancamentoFinanceiro", 'String'>
   readonly createdAt: Prisma.FieldRef<"LancamentoFinanceiro", 'DateTime'>

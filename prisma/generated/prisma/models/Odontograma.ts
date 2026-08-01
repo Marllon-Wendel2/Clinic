@@ -20,25 +20,13 @@ export type OdontogramaModel = runtime.Types.Result.DefaultSelection<Prisma.$Odo
 
 export type AggregateOdontograma = {
   _count: OdontogramaCountAggregateOutputType | null
-  _avg: OdontogramaAvgAggregateOutputType | null
-  _sum: OdontogramaSumAggregateOutputType | null
   _min: OdontogramaMinAggregateOutputType | null
   _max: OdontogramaMaxAggregateOutputType | null
 }
 
-export type OdontogramaAvgAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
-}
-
-export type OdontogramaSumAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
-}
-
 export type OdontogramaMinAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
+  id: string | null
+  pacienteId: string | null
   dente: string | null
   face: string | null
   condicao: string | null
@@ -48,8 +36,8 @@ export type OdontogramaMinAggregateOutputType = {
 }
 
 export type OdontogramaMaxAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
+  id: string | null
+  pacienteId: string | null
   dente: string | null
   face: string | null
   condicao: string | null
@@ -70,16 +58,6 @@ export type OdontogramaCountAggregateOutputType = {
   _all: number
 }
 
-
-export type OdontogramaAvgAggregateInputType = {
-  id?: true
-  pacienteId?: true
-}
-
-export type OdontogramaSumAggregateInputType = {
-  id?: true
-  pacienteId?: true
-}
 
 export type OdontogramaMinAggregateInputType = {
   id?: true
@@ -153,18 +131,6 @@ export type OdontogramaAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: OdontogramaAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: OdontogramaSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: OdontogramaMinAggregateInputType
@@ -195,15 +161,13 @@ export type OdontogramaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: OdontogramaCountAggregateInputType | true
-  _avg?: OdontogramaAvgAggregateInputType
-  _sum?: OdontogramaSumAggregateInputType
   _min?: OdontogramaMinAggregateInputType
   _max?: OdontogramaMaxAggregateInputType
 }
 
 export type OdontogramaGroupByOutputType = {
-  id: number
-  pacienteId: number
+  id: string
+  pacienteId: string
   dente: string
   face: string | null
   condicao: string
@@ -211,8 +175,6 @@ export type OdontogramaGroupByOutputType = {
   data: string
   createdAt: Date
   _count: OdontogramaCountAggregateOutputType | null
-  _avg: OdontogramaAvgAggregateOutputType | null
-  _sum: OdontogramaSumAggregateOutputType | null
   _min: OdontogramaMinAggregateOutputType | null
   _max: OdontogramaMaxAggregateOutputType | null
 }
@@ -236,8 +198,8 @@ export type OdontogramaWhereInput = {
   AND?: Prisma.OdontogramaWhereInput | Prisma.OdontogramaWhereInput[]
   OR?: Prisma.OdontogramaWhereInput[]
   NOT?: Prisma.OdontogramaWhereInput | Prisma.OdontogramaWhereInput[]
-  id?: Prisma.IntFilter<"Odontograma"> | number
-  pacienteId?: Prisma.IntFilter<"Odontograma"> | number
+  id?: Prisma.StringFilter<"Odontograma"> | string
+  pacienteId?: Prisma.StringFilter<"Odontograma"> | string
   dente?: Prisma.StringFilter<"Odontograma"> | string
   face?: Prisma.StringNullableFilter<"Odontograma"> | string | null
   condicao?: Prisma.StringFilter<"Odontograma"> | string
@@ -260,11 +222,11 @@ export type OdontogramaOrderByWithRelationInput = {
 }
 
 export type OdontogramaWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.OdontogramaWhereInput | Prisma.OdontogramaWhereInput[]
   OR?: Prisma.OdontogramaWhereInput[]
   NOT?: Prisma.OdontogramaWhereInput | Prisma.OdontogramaWhereInput[]
-  pacienteId?: Prisma.IntFilter<"Odontograma"> | number
+  pacienteId?: Prisma.StringFilter<"Odontograma"> | string
   dente?: Prisma.StringFilter<"Odontograma"> | string
   face?: Prisma.StringNullableFilter<"Odontograma"> | string | null
   condicao?: Prisma.StringFilter<"Odontograma"> | string
@@ -284,18 +246,16 @@ export type OdontogramaOrderByWithAggregationInput = {
   data?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.OdontogramaCountOrderByAggregateInput
-  _avg?: Prisma.OdontogramaAvgOrderByAggregateInput
   _max?: Prisma.OdontogramaMaxOrderByAggregateInput
   _min?: Prisma.OdontogramaMinOrderByAggregateInput
-  _sum?: Prisma.OdontogramaSumOrderByAggregateInput
 }
 
 export type OdontogramaScalarWhereWithAggregatesInput = {
   AND?: Prisma.OdontogramaScalarWhereWithAggregatesInput | Prisma.OdontogramaScalarWhereWithAggregatesInput[]
   OR?: Prisma.OdontogramaScalarWhereWithAggregatesInput[]
   NOT?: Prisma.OdontogramaScalarWhereWithAggregatesInput | Prisma.OdontogramaScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Odontograma"> | number
-  pacienteId?: Prisma.IntWithAggregatesFilter<"Odontograma"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Odontograma"> | string
+  pacienteId?: Prisma.StringWithAggregatesFilter<"Odontograma"> | string
   dente?: Prisma.StringWithAggregatesFilter<"Odontograma"> | string
   face?: Prisma.StringNullableWithAggregatesFilter<"Odontograma"> | string | null
   condicao?: Prisma.StringWithAggregatesFilter<"Odontograma"> | string
@@ -305,6 +265,7 @@ export type OdontogramaScalarWhereWithAggregatesInput = {
 }
 
 export type OdontogramaCreateInput = {
+  id?: string
   dente: string
   face?: string | null
   condicao: string
@@ -315,8 +276,8 @@ export type OdontogramaCreateInput = {
 }
 
 export type OdontogramaUncheckedCreateInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   dente: string
   face?: string | null
   condicao: string
@@ -326,6 +287,7 @@ export type OdontogramaUncheckedCreateInput = {
 }
 
 export type OdontogramaUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -336,8 +298,8 @@ export type OdontogramaUpdateInput = {
 }
 
 export type OdontogramaUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -347,8 +309,8 @@ export type OdontogramaUncheckedUpdateInput = {
 }
 
 export type OdontogramaCreateManyInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   dente: string
   face?: string | null
   condicao: string
@@ -358,6 +320,7 @@ export type OdontogramaCreateManyInput = {
 }
 
 export type OdontogramaUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -367,8 +330,8 @@ export type OdontogramaUpdateManyMutationInput = {
 }
 
 export type OdontogramaUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -398,11 +361,6 @@ export type OdontogramaCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
-export type OdontogramaAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
-}
-
 export type OdontogramaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   pacienteId?: Prisma.SortOrder
@@ -423,11 +381,6 @@ export type OdontogramaMinOrderByAggregateInput = {
   observacao?: Prisma.SortOrder
   data?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-}
-
-export type OdontogramaSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
 }
 
 export type OdontogramaCreateNestedManyWithoutPacienteInput = {
@@ -473,6 +426,7 @@ export type OdontogramaUncheckedUpdateManyWithoutPacienteNestedInput = {
 }
 
 export type OdontogramaCreateWithoutPacienteInput = {
+  id?: string
   dente: string
   face?: string | null
   condicao: string
@@ -482,7 +436,7 @@ export type OdontogramaCreateWithoutPacienteInput = {
 }
 
 export type OdontogramaUncheckedCreateWithoutPacienteInput = {
-  id?: number
+  id?: string
   dente: string
   face?: string | null
   condicao: string
@@ -521,8 +475,8 @@ export type OdontogramaScalarWhereInput = {
   AND?: Prisma.OdontogramaScalarWhereInput | Prisma.OdontogramaScalarWhereInput[]
   OR?: Prisma.OdontogramaScalarWhereInput[]
   NOT?: Prisma.OdontogramaScalarWhereInput | Prisma.OdontogramaScalarWhereInput[]
-  id?: Prisma.IntFilter<"Odontograma"> | number
-  pacienteId?: Prisma.IntFilter<"Odontograma"> | number
+  id?: Prisma.StringFilter<"Odontograma"> | string
+  pacienteId?: Prisma.StringFilter<"Odontograma"> | string
   dente?: Prisma.StringFilter<"Odontograma"> | string
   face?: Prisma.StringNullableFilter<"Odontograma"> | string | null
   condicao?: Prisma.StringFilter<"Odontograma"> | string
@@ -532,7 +486,7 @@ export type OdontogramaScalarWhereInput = {
 }
 
 export type OdontogramaCreateManyPacienteInput = {
-  id?: number
+  id?: string
   dente: string
   face?: string | null
   condicao: string
@@ -542,6 +496,7 @@ export type OdontogramaCreateManyPacienteInput = {
 }
 
 export type OdontogramaUpdateWithoutPacienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -551,7 +506,7 @@ export type OdontogramaUpdateWithoutPacienteInput = {
 }
 
 export type OdontogramaUncheckedUpdateWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -561,7 +516,7 @@ export type OdontogramaUncheckedUpdateWithoutPacienteInput = {
 }
 
 export type OdontogramaUncheckedUpdateManyWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.StringFieldUpdateOperationsInput | string
   face?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicao?: Prisma.StringFieldUpdateOperationsInput | string
@@ -636,8 +591,8 @@ export type $OdontogramaPayload<ExtArgs extends runtime.Types.Extensions.Interna
     paciente: Prisma.$PacientePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    pacienteId: number
+    id: string
+    pacienteId: string
     dente: string
     face: string | null
     condicao: string
@@ -1068,8 +1023,8 @@ export interface Prisma__OdontogramaClient<T, Null = never, ExtArgs extends runt
  * Fields of the Odontograma model
  */
 export interface OdontogramaFieldRefs {
-  readonly id: Prisma.FieldRef<"Odontograma", 'Int'>
-  readonly pacienteId: Prisma.FieldRef<"Odontograma", 'Int'>
+  readonly id: Prisma.FieldRef<"Odontograma", 'String'>
+  readonly pacienteId: Prisma.FieldRef<"Odontograma", 'String'>
   readonly dente: Prisma.FieldRef<"Odontograma", 'String'>
   readonly face: Prisma.FieldRef<"Odontograma", 'String'>
   readonly condicao: Prisma.FieldRef<"Odontograma", 'String'>

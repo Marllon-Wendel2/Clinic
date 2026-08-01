@@ -20,22 +20,12 @@ export type UsuarioModel = runtime.Types.Result.DefaultSelection<Prisma.$Usuario
 
 export type AggregateUsuario = {
   _count: UsuarioCountAggregateOutputType | null
-  _avg: UsuarioAvgAggregateOutputType | null
-  _sum: UsuarioSumAggregateOutputType | null
   _min: UsuarioMinAggregateOutputType | null
   _max: UsuarioMaxAggregateOutputType | null
 }
 
-export type UsuarioAvgAggregateOutputType = {
-  id: number | null
-}
-
-export type UsuarioSumAggregateOutputType = {
-  id: number | null
-}
-
 export type UsuarioMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   username: string | null
   password: string | null
   role: $Enums.UserRole | null
@@ -45,7 +35,7 @@ export type UsuarioMinAggregateOutputType = {
 }
 
 export type UsuarioMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   username: string | null
   password: string | null
   role: $Enums.UserRole | null
@@ -65,14 +55,6 @@ export type UsuarioCountAggregateOutputType = {
   _all: number
 }
 
-
-export type UsuarioAvgAggregateInputType = {
-  id?: true
-}
-
-export type UsuarioSumAggregateInputType = {
-  id?: true
-}
 
 export type UsuarioMinAggregateInputType = {
   id?: true
@@ -143,18 +125,6 @@ export type UsuarioAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: UsuarioAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: UsuarioSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: UsuarioMinAggregateInputType
@@ -185,14 +155,12 @@ export type UsuarioGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: UsuarioCountAggregateInputType | true
-  _avg?: UsuarioAvgAggregateInputType
-  _sum?: UsuarioSumAggregateInputType
   _min?: UsuarioMinAggregateInputType
   _max?: UsuarioMaxAggregateInputType
 }
 
 export type UsuarioGroupByOutputType = {
-  id: number
+  id: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -200,8 +168,6 @@ export type UsuarioGroupByOutputType = {
   cro: string | null
   createdAt: Date
   _count: UsuarioCountAggregateOutputType | null
-  _avg: UsuarioAvgAggregateOutputType | null
-  _sum: UsuarioSumAggregateOutputType | null
   _min: UsuarioMinAggregateOutputType | null
   _max: UsuarioMaxAggregateOutputType | null
 }
@@ -225,7 +191,7 @@ export type UsuarioWhereInput = {
   AND?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   OR?: Prisma.UsuarioWhereInput[]
   NOT?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
-  id?: Prisma.IntFilter<"Usuario"> | number
+  id?: Prisma.StringFilter<"Usuario"> | string
   username?: Prisma.StringFilter<"Usuario"> | string
   password?: Prisma.StringFilter<"Usuario"> | string
   role?: Prisma.EnumUserRoleFilter<"Usuario"> | $Enums.UserRole
@@ -249,7 +215,7 @@ export type UsuarioOrderByWithRelationInput = {
 }
 
 export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   username?: string
   AND?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   OR?: Prisma.UsuarioWhereInput[]
@@ -272,17 +238,15 @@ export type UsuarioOrderByWithAggregationInput = {
   cro?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UsuarioCountOrderByAggregateInput
-  _avg?: Prisma.UsuarioAvgOrderByAggregateInput
   _max?: Prisma.UsuarioMaxOrderByAggregateInput
   _min?: Prisma.UsuarioMinOrderByAggregateInput
-  _sum?: Prisma.UsuarioSumOrderByAggregateInput
 }
 
 export type UsuarioScalarWhereWithAggregatesInput = {
   AND?: Prisma.UsuarioScalarWhereWithAggregatesInput | Prisma.UsuarioScalarWhereWithAggregatesInput[]
   OR?: Prisma.UsuarioScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UsuarioScalarWhereWithAggregatesInput | Prisma.UsuarioScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Usuario"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   username?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   password?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"Usuario"> | $Enums.UserRole
@@ -292,6 +256,7 @@ export type UsuarioScalarWhereWithAggregatesInput = {
 }
 
 export type UsuarioCreateInput = {
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -303,7 +268,7 @@ export type UsuarioCreateInput = {
 }
 
 export type UsuarioUncheckedCreateInput = {
-  id?: number
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -315,6 +280,7 @@ export type UsuarioUncheckedCreateInput = {
 }
 
 export type UsuarioUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -326,7 +292,7 @@ export type UsuarioUpdateInput = {
 }
 
 export type UsuarioUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -338,7 +304,7 @@ export type UsuarioUncheckedUpdateInput = {
 }
 
 export type UsuarioCreateManyInput = {
-  id?: number
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -348,6 +314,7 @@ export type UsuarioCreateManyInput = {
 }
 
 export type UsuarioUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -357,7 +324,7 @@ export type UsuarioUpdateManyMutationInput = {
 }
 
 export type UsuarioUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -374,10 +341,6 @@ export type UsuarioCountOrderByAggregateInput = {
   nome?: Prisma.SortOrder
   cro?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-}
-
-export type UsuarioAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
 }
 
 export type UsuarioMaxOrderByAggregateInput = {
@@ -400,10 +363,6 @@ export type UsuarioMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
-export type UsuarioSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-}
-
 export type UsuarioNullableScalarRelationFilter = {
   is?: Prisma.UsuarioWhereInput | null
   isNot?: Prisma.UsuarioWhereInput | null
@@ -423,14 +382,6 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type UsuarioCreateNestedOneWithoutPacientesVinculadosInput = {
@@ -466,6 +417,7 @@ export type UsuarioUpdateOneWithoutConsultasAtendidasNestedInput = {
 }
 
 export type UsuarioCreateWithoutPacientesVinculadosInput = {
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -476,7 +428,7 @@ export type UsuarioCreateWithoutPacientesVinculadosInput = {
 }
 
 export type UsuarioUncheckedCreateWithoutPacientesVinculadosInput = {
-  id?: number
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -503,6 +455,7 @@ export type UsuarioUpdateToOneWithWhereWithoutPacientesVinculadosInput = {
 }
 
 export type UsuarioUpdateWithoutPacientesVinculadosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -513,7 +466,7 @@ export type UsuarioUpdateWithoutPacientesVinculadosInput = {
 }
 
 export type UsuarioUncheckedUpdateWithoutPacientesVinculadosInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -524,6 +477,7 @@ export type UsuarioUncheckedUpdateWithoutPacientesVinculadosInput = {
 }
 
 export type UsuarioCreateWithoutConsultasAtendidasInput = {
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -534,7 +488,7 @@ export type UsuarioCreateWithoutConsultasAtendidasInput = {
 }
 
 export type UsuarioUncheckedCreateWithoutConsultasAtendidasInput = {
-  id?: number
+  id?: string
   username: string
   password: string
   role: $Enums.UserRole
@@ -561,6 +515,7 @@ export type UsuarioUpdateToOneWithWhereWithoutConsultasAtendidasInput = {
 }
 
 export type UsuarioUpdateWithoutConsultasAtendidasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -571,7 +526,7 @@ export type UsuarioUpdateWithoutConsultasAtendidasInput = {
 }
 
 export type UsuarioUncheckedUpdateWithoutConsultasAtendidasInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -680,7 +635,7 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pacientesVinculados: Prisma.$PacientePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     username: string
     password: string
     role: $Enums.UserRole
@@ -1112,7 +1067,7 @@ export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Usuario model
  */
 export interface UsuarioFieldRefs {
-  readonly id: Prisma.FieldRef<"Usuario", 'Int'>
+  readonly id: Prisma.FieldRef<"Usuario", 'String'>
   readonly username: Prisma.FieldRef<"Usuario", 'String'>
   readonly password: Prisma.FieldRef<"Usuario", 'String'>
   readonly role: Prisma.FieldRef<"Usuario", 'UserRole'>

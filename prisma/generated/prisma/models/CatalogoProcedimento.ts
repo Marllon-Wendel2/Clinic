@@ -27,24 +27,22 @@ export type AggregateCatalogoProcedimento = {
 }
 
 export type CatalogoProcedimentoAvgAggregateOutputType = {
-  id: number | null
   valor: number | null
 }
 
 export type CatalogoProcedimentoSumAggregateOutputType = {
-  id: number | null
   valor: number | null
 }
 
 export type CatalogoProcedimentoMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   nome: string | null
   valor: number | null
   createdAt: Date | null
 }
 
 export type CatalogoProcedimentoMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   nome: string | null
   valor: number | null
   createdAt: Date | null
@@ -60,12 +58,10 @@ export type CatalogoProcedimentoCountAggregateOutputType = {
 
 
 export type CatalogoProcedimentoAvgAggregateInputType = {
-  id?: true
   valor?: true
 }
 
 export type CatalogoProcedimentoSumAggregateInputType = {
-  id?: true
   valor?: true
 }
 
@@ -178,7 +174,7 @@ export type CatalogoProcedimentoGroupByArgs<ExtArgs extends runtime.Types.Extens
 }
 
 export type CatalogoProcedimentoGroupByOutputType = {
-  id: number
+  id: string
   nome: string
   valor: number
   createdAt: Date
@@ -208,7 +204,7 @@ export type CatalogoProcedimentoWhereInput = {
   AND?: Prisma.CatalogoProcedimentoWhereInput | Prisma.CatalogoProcedimentoWhereInput[]
   OR?: Prisma.CatalogoProcedimentoWhereInput[]
   NOT?: Prisma.CatalogoProcedimentoWhereInput | Prisma.CatalogoProcedimentoWhereInput[]
-  id?: Prisma.IntFilter<"CatalogoProcedimento"> | number
+  id?: Prisma.StringFilter<"CatalogoProcedimento"> | string
   nome?: Prisma.StringFilter<"CatalogoProcedimento"> | string
   valor?: Prisma.FloatFilter<"CatalogoProcedimento"> | number
   createdAt?: Prisma.DateTimeFilter<"CatalogoProcedimento"> | Date | string
@@ -222,7 +218,7 @@ export type CatalogoProcedimentoOrderByWithRelationInput = {
 }
 
 export type CatalogoProcedimentoWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   nome?: string
   AND?: Prisma.CatalogoProcedimentoWhereInput | Prisma.CatalogoProcedimentoWhereInput[]
   OR?: Prisma.CatalogoProcedimentoWhereInput[]
@@ -247,53 +243,56 @@ export type CatalogoProcedimentoScalarWhereWithAggregatesInput = {
   AND?: Prisma.CatalogoProcedimentoScalarWhereWithAggregatesInput | Prisma.CatalogoProcedimentoScalarWhereWithAggregatesInput[]
   OR?: Prisma.CatalogoProcedimentoScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CatalogoProcedimentoScalarWhereWithAggregatesInput | Prisma.CatalogoProcedimentoScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"CatalogoProcedimento"> | number
+  id?: Prisma.StringWithAggregatesFilter<"CatalogoProcedimento"> | string
   nome?: Prisma.StringWithAggregatesFilter<"CatalogoProcedimento"> | string
   valor?: Prisma.FloatWithAggregatesFilter<"CatalogoProcedimento"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CatalogoProcedimento"> | Date | string
 }
 
 export type CatalogoProcedimentoCreateInput = {
+  id?: string
   nome: string
   valor?: number
   createdAt?: Date | string
 }
 
 export type CatalogoProcedimentoUncheckedCreateInput = {
-  id?: number
+  id?: string
   nome: string
   valor?: number
   createdAt?: Date | string
 }
 
 export type CatalogoProcedimentoUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CatalogoProcedimentoUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CatalogoProcedimentoCreateManyInput = {
-  id?: number
+  id?: string
   nome: string
   valor?: number
   createdAt?: Date | string
 }
 
 export type CatalogoProcedimentoUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CatalogoProcedimentoUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -307,7 +306,6 @@ export type CatalogoProcedimentoCountOrderByAggregateInput = {
 }
 
 export type CatalogoProcedimentoAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   valor?: Prisma.SortOrder
 }
 
@@ -326,7 +324,6 @@ export type CatalogoProcedimentoMinOrderByAggregateInput = {
 }
 
 export type CatalogoProcedimentoSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   valor?: Prisma.SortOrder
 }
 
@@ -366,7 +363,7 @@ export type $CatalogoProcedimentoPayload<ExtArgs extends runtime.Types.Extension
   name: "CatalogoProcedimento"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     nome: string
     valor: number
     createdAt: Date
@@ -793,7 +790,7 @@ export interface Prisma__CatalogoProcedimentoClient<T, Null = never, ExtArgs ext
  * Fields of the CatalogoProcedimento model
  */
 export interface CatalogoProcedimentoFieldRefs {
-  readonly id: Prisma.FieldRef<"CatalogoProcedimento", 'Int'>
+  readonly id: Prisma.FieldRef<"CatalogoProcedimento", 'String'>
   readonly nome: Prisma.FieldRef<"CatalogoProcedimento", 'String'>
   readonly valor: Prisma.FieldRef<"CatalogoProcedimento", 'Float'>
   readonly createdAt: Prisma.FieldRef<"CatalogoProcedimento", 'DateTime'>

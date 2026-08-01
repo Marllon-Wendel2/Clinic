@@ -27,23 +27,17 @@ export type AggregateProcedimento = {
 }
 
 export type ProcedimentoAvgAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
-  consultaId: number | null
   valor: number | null
 }
 
 export type ProcedimentoSumAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
-  consultaId: number | null
   valor: number | null
 }
 
 export type ProcedimentoMinAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
-  consultaId: number | null
+  id: string | null
+  pacienteId: string | null
+  consultaId: string | null
   dente: string | null
   procedimento: string | null
   descricao: string | null
@@ -54,9 +48,9 @@ export type ProcedimentoMinAggregateOutputType = {
 }
 
 export type ProcedimentoMaxAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
-  consultaId: number | null
+  id: string | null
+  pacienteId: string | null
+  consultaId: string | null
   dente: string | null
   procedimento: string | null
   descricao: string | null
@@ -82,16 +76,10 @@ export type ProcedimentoCountAggregateOutputType = {
 
 
 export type ProcedimentoAvgAggregateInputType = {
-  id?: true
-  pacienteId?: true
-  consultaId?: true
   valor?: true
 }
 
 export type ProcedimentoSumAggregateInputType = {
-  id?: true
-  pacienteId?: true
-  consultaId?: true
   valor?: true
 }
 
@@ -222,9 +210,9 @@ export type ProcedimentoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 export type ProcedimentoGroupByOutputType = {
-  id: number
-  pacienteId: number
-  consultaId: number | null
+  id: string
+  pacienteId: string
+  consultaId: string | null
   dente: string | null
   procedimento: string
   descricao: string | null
@@ -258,9 +246,9 @@ export type ProcedimentoWhereInput = {
   AND?: Prisma.ProcedimentoWhereInput | Prisma.ProcedimentoWhereInput[]
   OR?: Prisma.ProcedimentoWhereInput[]
   NOT?: Prisma.ProcedimentoWhereInput | Prisma.ProcedimentoWhereInput[]
-  id?: Prisma.IntFilter<"Procedimento"> | number
-  pacienteId?: Prisma.IntFilter<"Procedimento"> | number
-  consultaId?: Prisma.IntNullableFilter<"Procedimento"> | number | null
+  id?: Prisma.StringFilter<"Procedimento"> | string
+  pacienteId?: Prisma.StringFilter<"Procedimento"> | string
+  consultaId?: Prisma.StringNullableFilter<"Procedimento"> | string | null
   dente?: Prisma.StringNullableFilter<"Procedimento"> | string | null
   procedimento?: Prisma.StringFilter<"Procedimento"> | string
   descricao?: Prisma.StringNullableFilter<"Procedimento"> | string | null
@@ -288,12 +276,12 @@ export type ProcedimentoOrderByWithRelationInput = {
 }
 
 export type ProcedimentoWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.ProcedimentoWhereInput | Prisma.ProcedimentoWhereInput[]
   OR?: Prisma.ProcedimentoWhereInput[]
   NOT?: Prisma.ProcedimentoWhereInput | Prisma.ProcedimentoWhereInput[]
-  pacienteId?: Prisma.IntFilter<"Procedimento"> | number
-  consultaId?: Prisma.IntNullableFilter<"Procedimento"> | number | null
+  pacienteId?: Prisma.StringFilter<"Procedimento"> | string
+  consultaId?: Prisma.StringNullableFilter<"Procedimento"> | string | null
   dente?: Prisma.StringNullableFilter<"Procedimento"> | string | null
   procedimento?: Prisma.StringFilter<"Procedimento"> | string
   descricao?: Prisma.StringNullableFilter<"Procedimento"> | string | null
@@ -327,9 +315,9 @@ export type ProcedimentoScalarWhereWithAggregatesInput = {
   AND?: Prisma.ProcedimentoScalarWhereWithAggregatesInput | Prisma.ProcedimentoScalarWhereWithAggregatesInput[]
   OR?: Prisma.ProcedimentoScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProcedimentoScalarWhereWithAggregatesInput | Prisma.ProcedimentoScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Procedimento"> | number
-  pacienteId?: Prisma.IntWithAggregatesFilter<"Procedimento"> | number
-  consultaId?: Prisma.IntNullableWithAggregatesFilter<"Procedimento"> | number | null
+  id?: Prisma.StringWithAggregatesFilter<"Procedimento"> | string
+  pacienteId?: Prisma.StringWithAggregatesFilter<"Procedimento"> | string
+  consultaId?: Prisma.StringNullableWithAggregatesFilter<"Procedimento"> | string | null
   dente?: Prisma.StringNullableWithAggregatesFilter<"Procedimento"> | string | null
   procedimento?: Prisma.StringWithAggregatesFilter<"Procedimento"> | string
   descricao?: Prisma.StringNullableWithAggregatesFilter<"Procedimento"> | string | null
@@ -340,6 +328,7 @@ export type ProcedimentoScalarWhereWithAggregatesInput = {
 }
 
 export type ProcedimentoCreateInput = {
+  id?: string
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -352,9 +341,9 @@ export type ProcedimentoCreateInput = {
 }
 
 export type ProcedimentoUncheckedCreateInput = {
-  id?: number
-  pacienteId: number
-  consultaId?: number | null
+  id?: string
+  pacienteId: string
+  consultaId?: string | null
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -365,6 +354,7 @@ export type ProcedimentoUncheckedCreateInput = {
 }
 
 export type ProcedimentoUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -377,9 +367,9 @@ export type ProcedimentoUpdateInput = {
 }
 
 export type ProcedimentoUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -390,9 +380,9 @@ export type ProcedimentoUncheckedUpdateInput = {
 }
 
 export type ProcedimentoCreateManyInput = {
-  id?: number
-  pacienteId: number
-  consultaId?: number | null
+  id?: string
+  pacienteId: string
+  consultaId?: string | null
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -403,6 +393,7 @@ export type ProcedimentoCreateManyInput = {
 }
 
 export type ProcedimentoUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -413,9 +404,9 @@ export type ProcedimentoUpdateManyMutationInput = {
 }
 
 export type ProcedimentoUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -449,9 +440,6 @@ export type ProcedimentoCountOrderByAggregateInput = {
 }
 
 export type ProcedimentoAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
-  consultaId?: Prisma.SortOrder
   valor?: Prisma.SortOrder
 }
 
@@ -482,9 +470,6 @@ export type ProcedimentoMinOrderByAggregateInput = {
 }
 
 export type ProcedimentoSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
-  consultaId?: Prisma.SortOrder
   valor?: Prisma.SortOrder
 }
 
@@ -573,6 +558,7 @@ export type ProcedimentoUncheckedUpdateManyWithoutConsultaNestedInput = {
 }
 
 export type ProcedimentoCreateWithoutPacienteInput = {
+  id?: string
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -584,8 +570,8 @@ export type ProcedimentoCreateWithoutPacienteInput = {
 }
 
 export type ProcedimentoUncheckedCreateWithoutPacienteInput = {
-  id?: number
-  consultaId?: number | null
+  id?: string
+  consultaId?: string | null
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -625,9 +611,9 @@ export type ProcedimentoScalarWhereInput = {
   AND?: Prisma.ProcedimentoScalarWhereInput | Prisma.ProcedimentoScalarWhereInput[]
   OR?: Prisma.ProcedimentoScalarWhereInput[]
   NOT?: Prisma.ProcedimentoScalarWhereInput | Prisma.ProcedimentoScalarWhereInput[]
-  id?: Prisma.IntFilter<"Procedimento"> | number
-  pacienteId?: Prisma.IntFilter<"Procedimento"> | number
-  consultaId?: Prisma.IntNullableFilter<"Procedimento"> | number | null
+  id?: Prisma.StringFilter<"Procedimento"> | string
+  pacienteId?: Prisma.StringFilter<"Procedimento"> | string
+  consultaId?: Prisma.StringNullableFilter<"Procedimento"> | string | null
   dente?: Prisma.StringNullableFilter<"Procedimento"> | string | null
   procedimento?: Prisma.StringFilter<"Procedimento"> | string
   descricao?: Prisma.StringNullableFilter<"Procedimento"> | string | null
@@ -638,6 +624,7 @@ export type ProcedimentoScalarWhereInput = {
 }
 
 export type ProcedimentoCreateWithoutConsultaInput = {
+  id?: string
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -649,8 +636,8 @@ export type ProcedimentoCreateWithoutConsultaInput = {
 }
 
 export type ProcedimentoUncheckedCreateWithoutConsultaInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -687,8 +674,8 @@ export type ProcedimentoUpdateManyWithWhereWithoutConsultaInput = {
 }
 
 export type ProcedimentoCreateManyPacienteInput = {
-  id?: number
-  consultaId?: number | null
+  id?: string
+  consultaId?: string | null
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -699,6 +686,7 @@ export type ProcedimentoCreateManyPacienteInput = {
 }
 
 export type ProcedimentoUpdateWithoutPacienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -710,8 +698,8 @@ export type ProcedimentoUpdateWithoutPacienteInput = {
 }
 
 export type ProcedimentoUncheckedUpdateWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -722,8 +710,8 @@ export type ProcedimentoUncheckedUpdateWithoutPacienteInput = {
 }
 
 export type ProcedimentoUncheckedUpdateManyWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  consultaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  consultaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -734,8 +722,8 @@ export type ProcedimentoUncheckedUpdateManyWithoutPacienteInput = {
 }
 
 export type ProcedimentoCreateManyConsultaInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   dente?: string | null
   procedimento: string
   descricao?: string | null
@@ -746,6 +734,7 @@ export type ProcedimentoCreateManyConsultaInput = {
 }
 
 export type ProcedimentoUpdateWithoutConsultaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -757,8 +746,8 @@ export type ProcedimentoUpdateWithoutConsultaInput = {
 }
 
 export type ProcedimentoUncheckedUpdateWithoutConsultaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -769,8 +758,8 @@ export type ProcedimentoUncheckedUpdateWithoutConsultaInput = {
 }
 
 export type ProcedimentoUncheckedUpdateManyWithoutConsultaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   dente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procedimento?: Prisma.StringFieldUpdateOperationsInput | string
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -861,9 +850,9 @@ export type $ProcedimentoPayload<ExtArgs extends runtime.Types.Extensions.Intern
     consulta: Prisma.$ConsultaPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    pacienteId: number
-    consultaId: number | null
+    id: string
+    pacienteId: string
+    consultaId: string | null
     dente: string | null
     procedimento: string
     descricao: string | null
@@ -1296,9 +1285,9 @@ export interface Prisma__ProcedimentoClient<T, Null = never, ExtArgs extends run
  * Fields of the Procedimento model
  */
 export interface ProcedimentoFieldRefs {
-  readonly id: Prisma.FieldRef<"Procedimento", 'Int'>
-  readonly pacienteId: Prisma.FieldRef<"Procedimento", 'Int'>
-  readonly consultaId: Prisma.FieldRef<"Procedimento", 'Int'>
+  readonly id: Prisma.FieldRef<"Procedimento", 'String'>
+  readonly pacienteId: Prisma.FieldRef<"Procedimento", 'String'>
+  readonly consultaId: Prisma.FieldRef<"Procedimento", 'String'>
   readonly dente: Prisma.FieldRef<"Procedimento", 'String'>
   readonly procedimento: Prisma.FieldRef<"Procedimento", 'String'>
   readonly descricao: Prisma.FieldRef<"Procedimento", 'String'>

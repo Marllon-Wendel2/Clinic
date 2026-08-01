@@ -27,24 +27,18 @@ export type AggregateConsulta = {
 }
 
 export type ConsultaAvgAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
   duracao: number | null
   valor: number | null
-  dentistaId: number | null
 }
 
 export type ConsultaSumAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
   duracao: number | null
   valor: number | null
-  dentistaId: number | null
 }
 
 export type ConsultaMinAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
+  id: string | null
+  pacienteId: string | null
   data: string | null
   hora: string | null
   duracao: number | null
@@ -52,13 +46,13 @@ export type ConsultaMinAggregateOutputType = {
   procedimento: string | null
   observacoes: string | null
   valor: number | null
-  dentistaId: number | null
+  dentistaId: string | null
   createdAt: Date | null
 }
 
 export type ConsultaMaxAggregateOutputType = {
-  id: number | null
-  pacienteId: number | null
+  id: string | null
+  pacienteId: string | null
   data: string | null
   hora: string | null
   duracao: number | null
@@ -66,7 +60,7 @@ export type ConsultaMaxAggregateOutputType = {
   procedimento: string | null
   observacoes: string | null
   valor: number | null
-  dentistaId: number | null
+  dentistaId: string | null
   createdAt: Date | null
 }
 
@@ -87,19 +81,13 @@ export type ConsultaCountAggregateOutputType = {
 
 
 export type ConsultaAvgAggregateInputType = {
-  id?: true
-  pacienteId?: true
   duracao?: true
   valor?: true
-  dentistaId?: true
 }
 
 export type ConsultaSumAggregateInputType = {
-  id?: true
-  pacienteId?: true
   duracao?: true
   valor?: true
-  dentistaId?: true
 }
 
 export type ConsultaMinAggregateInputType = {
@@ -232,8 +220,8 @@ export type ConsultaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type ConsultaGroupByOutputType = {
-  id: number
-  pacienteId: number
+  id: string
+  pacienteId: string
   data: string
   hora: string
   duracao: number
@@ -241,7 +229,7 @@ export type ConsultaGroupByOutputType = {
   procedimento: string | null
   observacoes: string | null
   valor: number
-  dentistaId: number | null
+  dentistaId: string | null
   createdAt: Date
   _count: ConsultaCountAggregateOutputType | null
   _avg: ConsultaAvgAggregateOutputType | null
@@ -269,8 +257,8 @@ export type ConsultaWhereInput = {
   AND?: Prisma.ConsultaWhereInput | Prisma.ConsultaWhereInput[]
   OR?: Prisma.ConsultaWhereInput[]
   NOT?: Prisma.ConsultaWhereInput | Prisma.ConsultaWhereInput[]
-  id?: Prisma.IntFilter<"Consulta"> | number
-  pacienteId?: Prisma.IntFilter<"Consulta"> | number
+  id?: Prisma.StringFilter<"Consulta"> | string
+  pacienteId?: Prisma.StringFilter<"Consulta"> | string
   data?: Prisma.StringFilter<"Consulta"> | string
   hora?: Prisma.StringFilter<"Consulta"> | string
   duracao?: Prisma.IntFilter<"Consulta"> | number
@@ -278,7 +266,7 @@ export type ConsultaWhereInput = {
   procedimento?: Prisma.StringNullableFilter<"Consulta"> | string | null
   observacoes?: Prisma.StringNullableFilter<"Consulta"> | string | null
   valor?: Prisma.FloatFilter<"Consulta"> | number
-  dentistaId?: Prisma.IntNullableFilter<"Consulta"> | number | null
+  dentistaId?: Prisma.StringNullableFilter<"Consulta"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Consulta"> | Date | string
   paciente?: Prisma.XOR<Prisma.PacienteScalarRelationFilter, Prisma.PacienteWhereInput>
   dentista?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
@@ -305,11 +293,11 @@ export type ConsultaOrderByWithRelationInput = {
 }
 
 export type ConsultaWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.ConsultaWhereInput | Prisma.ConsultaWhereInput[]
   OR?: Prisma.ConsultaWhereInput[]
   NOT?: Prisma.ConsultaWhereInput | Prisma.ConsultaWhereInput[]
-  pacienteId?: Prisma.IntFilter<"Consulta"> | number
+  pacienteId?: Prisma.StringFilter<"Consulta"> | string
   data?: Prisma.StringFilter<"Consulta"> | string
   hora?: Prisma.StringFilter<"Consulta"> | string
   duracao?: Prisma.IntFilter<"Consulta"> | number
@@ -317,7 +305,7 @@ export type ConsultaWhereUniqueInput = Prisma.AtLeast<{
   procedimento?: Prisma.StringNullableFilter<"Consulta"> | string | null
   observacoes?: Prisma.StringNullableFilter<"Consulta"> | string | null
   valor?: Prisma.FloatFilter<"Consulta"> | number
-  dentistaId?: Prisma.IntNullableFilter<"Consulta"> | number | null
+  dentistaId?: Prisma.StringNullableFilter<"Consulta"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Consulta"> | Date | string
   paciente?: Prisma.XOR<Prisma.PacienteScalarRelationFilter, Prisma.PacienteWhereInput>
   dentista?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
@@ -348,8 +336,8 @@ export type ConsultaScalarWhereWithAggregatesInput = {
   AND?: Prisma.ConsultaScalarWhereWithAggregatesInput | Prisma.ConsultaScalarWhereWithAggregatesInput[]
   OR?: Prisma.ConsultaScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ConsultaScalarWhereWithAggregatesInput | Prisma.ConsultaScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Consulta"> | number
-  pacienteId?: Prisma.IntWithAggregatesFilter<"Consulta"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Consulta"> | string
+  pacienteId?: Prisma.StringWithAggregatesFilter<"Consulta"> | string
   data?: Prisma.StringWithAggregatesFilter<"Consulta"> | string
   hora?: Prisma.StringWithAggregatesFilter<"Consulta"> | string
   duracao?: Prisma.IntWithAggregatesFilter<"Consulta"> | number
@@ -357,11 +345,12 @@ export type ConsultaScalarWhereWithAggregatesInput = {
   procedimento?: Prisma.StringNullableWithAggregatesFilter<"Consulta"> | string | null
   observacoes?: Prisma.StringNullableWithAggregatesFilter<"Consulta"> | string | null
   valor?: Prisma.FloatWithAggregatesFilter<"Consulta"> | number
-  dentistaId?: Prisma.IntNullableWithAggregatesFilter<"Consulta"> | number | null
+  dentistaId?: Prisma.StringNullableWithAggregatesFilter<"Consulta"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Consulta"> | Date | string
 }
 
 export type ConsultaCreateInput = {
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -377,8 +366,8 @@ export type ConsultaCreateInput = {
 }
 
 export type ConsultaUncheckedCreateInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   data: string
   hora: string
   duracao?: number
@@ -386,13 +375,14 @@ export type ConsultaUncheckedCreateInput = {
   procedimento?: string | null
   observacoes?: string | null
   valor?: number
-  dentistaId?: number | null
+  dentistaId?: string | null
   createdAt?: Date | string
   procedimentos?: Prisma.ProcedimentoUncheckedCreateNestedManyWithoutConsultaInput
   lancamentosFinanceiros?: Prisma.LancamentoFinanceiroUncheckedCreateNestedManyWithoutConsultaInput
 }
 
 export type ConsultaUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -408,8 +398,8 @@ export type ConsultaUpdateInput = {
 }
 
 export type ConsultaUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -417,15 +407,15 @@ export type ConsultaUncheckedUpdateInput = {
   procedimento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
-  dentistaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dentistaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   procedimentos?: Prisma.ProcedimentoUncheckedUpdateManyWithoutConsultaNestedInput
   lancamentosFinanceiros?: Prisma.LancamentoFinanceiroUncheckedUpdateManyWithoutConsultaNestedInput
 }
 
 export type ConsultaCreateManyInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   data: string
   hora: string
   duracao?: number
@@ -433,11 +423,12 @@ export type ConsultaCreateManyInput = {
   procedimento?: string | null
   observacoes?: string | null
   valor?: number
-  dentistaId?: number | null
+  dentistaId?: string | null
   createdAt?: Date | string
 }
 
 export type ConsultaUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -449,8 +440,8 @@ export type ConsultaUpdateManyMutationInput = {
 }
 
 export type ConsultaUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -458,7 +449,7 @@ export type ConsultaUncheckedUpdateManyInput = {
   procedimento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
-  dentistaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dentistaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -487,11 +478,8 @@ export type ConsultaCountOrderByAggregateInput = {
 }
 
 export type ConsultaAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
   duracao?: Prisma.SortOrder
   valor?: Prisma.SortOrder
-  dentistaId?: Prisma.SortOrder
 }
 
 export type ConsultaMaxOrderByAggregateInput = {
@@ -523,11 +511,8 @@ export type ConsultaMinOrderByAggregateInput = {
 }
 
 export type ConsultaSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  pacienteId?: Prisma.SortOrder
   duracao?: Prisma.SortOrder
   valor?: Prisma.SortOrder
-  dentistaId?: Prisma.SortOrder
 }
 
 export type ConsultaNullableScalarRelationFilter = {
@@ -619,6 +604,14 @@ export type ConsultaUncheckedUpdateManyWithoutPacienteNestedInput = {
   deleteMany?: Prisma.ConsultaScalarWhereInput | Prisma.ConsultaScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumConsultaStatusFieldUpdateOperationsInput = {
   set?: $Enums.ConsultaStatus
 }
@@ -664,6 +657,7 @@ export type ConsultaUpdateOneWithoutLancamentosFinanceirosNestedInput = {
 }
 
 export type ConsultaCreateWithoutDentistaInput = {
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -678,8 +672,8 @@ export type ConsultaCreateWithoutDentistaInput = {
 }
 
 export type ConsultaUncheckedCreateWithoutDentistaInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   data: string
   hora: string
   duracao?: number
@@ -722,8 +716,8 @@ export type ConsultaScalarWhereInput = {
   AND?: Prisma.ConsultaScalarWhereInput | Prisma.ConsultaScalarWhereInput[]
   OR?: Prisma.ConsultaScalarWhereInput[]
   NOT?: Prisma.ConsultaScalarWhereInput | Prisma.ConsultaScalarWhereInput[]
-  id?: Prisma.IntFilter<"Consulta"> | number
-  pacienteId?: Prisma.IntFilter<"Consulta"> | number
+  id?: Prisma.StringFilter<"Consulta"> | string
+  pacienteId?: Prisma.StringFilter<"Consulta"> | string
   data?: Prisma.StringFilter<"Consulta"> | string
   hora?: Prisma.StringFilter<"Consulta"> | string
   duracao?: Prisma.IntFilter<"Consulta"> | number
@@ -731,11 +725,12 @@ export type ConsultaScalarWhereInput = {
   procedimento?: Prisma.StringNullableFilter<"Consulta"> | string | null
   observacoes?: Prisma.StringNullableFilter<"Consulta"> | string | null
   valor?: Prisma.FloatFilter<"Consulta"> | number
-  dentistaId?: Prisma.IntNullableFilter<"Consulta"> | number | null
+  dentistaId?: Prisma.StringNullableFilter<"Consulta"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Consulta"> | Date | string
 }
 
 export type ConsultaCreateWithoutPacienteInput = {
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -750,7 +745,7 @@ export type ConsultaCreateWithoutPacienteInput = {
 }
 
 export type ConsultaUncheckedCreateWithoutPacienteInput = {
-  id?: number
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -758,7 +753,7 @@ export type ConsultaUncheckedCreateWithoutPacienteInput = {
   procedimento?: string | null
   observacoes?: string | null
   valor?: number
-  dentistaId?: number | null
+  dentistaId?: string | null
   createdAt?: Date | string
   procedimentos?: Prisma.ProcedimentoUncheckedCreateNestedManyWithoutConsultaInput
   lancamentosFinanceiros?: Prisma.LancamentoFinanceiroUncheckedCreateNestedManyWithoutConsultaInput
@@ -791,6 +786,7 @@ export type ConsultaUpdateManyWithWhereWithoutPacienteInput = {
 }
 
 export type ConsultaCreateWithoutProcedimentosInput = {
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -805,8 +801,8 @@ export type ConsultaCreateWithoutProcedimentosInput = {
 }
 
 export type ConsultaUncheckedCreateWithoutProcedimentosInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   data: string
   hora: string
   duracao?: number
@@ -814,7 +810,7 @@ export type ConsultaUncheckedCreateWithoutProcedimentosInput = {
   procedimento?: string | null
   observacoes?: string | null
   valor?: number
-  dentistaId?: number | null
+  dentistaId?: string | null
   createdAt?: Date | string
   lancamentosFinanceiros?: Prisma.LancamentoFinanceiroUncheckedCreateNestedManyWithoutConsultaInput
 }
@@ -836,6 +832,7 @@ export type ConsultaUpdateToOneWithWhereWithoutProcedimentosInput = {
 }
 
 export type ConsultaUpdateWithoutProcedimentosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -850,8 +847,8 @@ export type ConsultaUpdateWithoutProcedimentosInput = {
 }
 
 export type ConsultaUncheckedUpdateWithoutProcedimentosInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -859,12 +856,13 @@ export type ConsultaUncheckedUpdateWithoutProcedimentosInput = {
   procedimento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
-  dentistaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dentistaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lancamentosFinanceiros?: Prisma.LancamentoFinanceiroUncheckedUpdateManyWithoutConsultaNestedInput
 }
 
 export type ConsultaCreateWithoutLancamentosFinanceirosInput = {
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -879,8 +877,8 @@ export type ConsultaCreateWithoutLancamentosFinanceirosInput = {
 }
 
 export type ConsultaUncheckedCreateWithoutLancamentosFinanceirosInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   data: string
   hora: string
   duracao?: number
@@ -888,7 +886,7 @@ export type ConsultaUncheckedCreateWithoutLancamentosFinanceirosInput = {
   procedimento?: string | null
   observacoes?: string | null
   valor?: number
-  dentistaId?: number | null
+  dentistaId?: string | null
   createdAt?: Date | string
   procedimentos?: Prisma.ProcedimentoUncheckedCreateNestedManyWithoutConsultaInput
 }
@@ -910,6 +908,7 @@ export type ConsultaUpdateToOneWithWhereWithoutLancamentosFinanceirosInput = {
 }
 
 export type ConsultaUpdateWithoutLancamentosFinanceirosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -924,8 +923,8 @@ export type ConsultaUpdateWithoutLancamentosFinanceirosInput = {
 }
 
 export type ConsultaUncheckedUpdateWithoutLancamentosFinanceirosInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -933,14 +932,14 @@ export type ConsultaUncheckedUpdateWithoutLancamentosFinanceirosInput = {
   procedimento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
-  dentistaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dentistaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   procedimentos?: Prisma.ProcedimentoUncheckedUpdateManyWithoutConsultaNestedInput
 }
 
 export type ConsultaCreateManyDentistaInput = {
-  id?: number
-  pacienteId: number
+  id?: string
+  pacienteId: string
   data: string
   hora: string
   duracao?: number
@@ -952,6 +951,7 @@ export type ConsultaCreateManyDentistaInput = {
 }
 
 export type ConsultaUpdateWithoutDentistaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -966,8 +966,8 @@ export type ConsultaUpdateWithoutDentistaInput = {
 }
 
 export type ConsultaUncheckedUpdateWithoutDentistaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -981,8 +981,8 @@ export type ConsultaUncheckedUpdateWithoutDentistaInput = {
 }
 
 export type ConsultaUncheckedUpdateManyWithoutDentistaInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  pacienteId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  pacienteId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -994,7 +994,7 @@ export type ConsultaUncheckedUpdateManyWithoutDentistaInput = {
 }
 
 export type ConsultaCreateManyPacienteInput = {
-  id?: number
+  id?: string
   data: string
   hora: string
   duracao?: number
@@ -1002,11 +1002,12 @@ export type ConsultaCreateManyPacienteInput = {
   procedimento?: string | null
   observacoes?: string | null
   valor?: number
-  dentistaId?: number | null
+  dentistaId?: string | null
   createdAt?: Date | string
 }
 
 export type ConsultaUpdateWithoutPacienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1021,7 +1022,7 @@ export type ConsultaUpdateWithoutPacienteInput = {
 }
 
 export type ConsultaUncheckedUpdateWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1029,14 +1030,14 @@ export type ConsultaUncheckedUpdateWithoutPacienteInput = {
   procedimento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
-  dentistaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dentistaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   procedimentos?: Prisma.ProcedimentoUncheckedUpdateManyWithoutConsultaNestedInput
   lancamentosFinanceiros?: Prisma.LancamentoFinanceiroUncheckedUpdateManyWithoutConsultaNestedInput
 }
 
 export type ConsultaUncheckedUpdateManyWithoutPacienteInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   hora?: Prisma.StringFieldUpdateOperationsInput | string
   duracao?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1044,7 +1045,7 @@ export type ConsultaUncheckedUpdateManyWithoutPacienteInput = {
   procedimento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
-  dentistaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dentistaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1179,8 +1180,8 @@ export type $ConsultaPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     lancamentosFinanceiros: Prisma.$LancamentoFinanceiroPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    pacienteId: number
+    id: string
+    pacienteId: string
     data: string
     hora: string
     duracao: number
@@ -1188,7 +1189,7 @@ export type $ConsultaPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     procedimento: string | null
     observacoes: string | null
     valor: number
-    dentistaId: number | null
+    dentistaId: string | null
     createdAt: Date
   }, ExtArgs["result"]["consulta"]>
   composites: {}
@@ -1617,8 +1618,8 @@ export interface Prisma__ConsultaClient<T, Null = never, ExtArgs extends runtime
  * Fields of the Consulta model
  */
 export interface ConsultaFieldRefs {
-  readonly id: Prisma.FieldRef<"Consulta", 'Int'>
-  readonly pacienteId: Prisma.FieldRef<"Consulta", 'Int'>
+  readonly id: Prisma.FieldRef<"Consulta", 'String'>
+  readonly pacienteId: Prisma.FieldRef<"Consulta", 'String'>
   readonly data: Prisma.FieldRef<"Consulta", 'String'>
   readonly hora: Prisma.FieldRef<"Consulta", 'String'>
   readonly duracao: Prisma.FieldRef<"Consulta", 'Int'>
@@ -1626,7 +1627,7 @@ export interface ConsultaFieldRefs {
   readonly procedimento: Prisma.FieldRef<"Consulta", 'String'>
   readonly observacoes: Prisma.FieldRef<"Consulta", 'String'>
   readonly valor: Prisma.FieldRef<"Consulta", 'Float'>
-  readonly dentistaId: Prisma.FieldRef<"Consulta", 'Int'>
+  readonly dentistaId: Prisma.FieldRef<"Consulta", 'String'>
   readonly createdAt: Prisma.FieldRef<"Consulta", 'DateTime'>
 }
     

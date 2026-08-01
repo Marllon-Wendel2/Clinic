@@ -35,7 +35,7 @@ enum FinanceiroStatus {
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   username  String   @unique
   password  String
   role      UserRole
@@ -50,7 +50,7 @@ model Usuario {
 }
 
 model Paciente {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   nome           String
   cpf            String?  @unique
   telefone       String?
@@ -64,7 +64,7 @@ model Paciente {
   alergias       String?
   medicamentos   String?
   doencas        String?
-  usuarioId      Int?     @map("usuario_id")
+  usuarioId      String?  @map("usuario_id")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @default(now()) @map("updated_at")
 
@@ -78,17 +78,17 @@ model Paciente {
 }
 
 model Consulta {
-  id           Int      @id @default(autoincrement())
-  pacienteId   Int      @map("paciente_id")
+  id           String         @id @default(uuid())
+  pacienteId   String         @map("paciente_id")
   data         String
   hora         String
-  duracao      Int      @default(30)
+  duracao      Int            @default(30)
   status       ConsultaStatus @default(agendado)
   procedimento String?
   observacoes  String?
-  valor        Float    @default(0)
-  dentistaId   Int?     @map("dentista_id")
-  createdAt    DateTime @default(now()) @map("created_at")
+  valor        Float          @default(0)
+  dentistaId   String?        @map("dentista_id")
+  createdAt    DateTime       @default(now()) @map("created_at")
 
   paciente               Paciente               @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
   dentista               Usuario?               @relation("Dentista", fields: [dentistaId], references: [id], onDelete: SetNull)
@@ -99,9 +99,9 @@ model Consulta {
 }
 
 model Procedimento {
-  id           Int      @id @default(autoincrement())
-  pacienteId   Int      @map("paciente_id")
-  consultaId   Int?     @map("consulta_id")
+  id           String   @id @default(uuid())
+  pacienteId   String   @map("paciente_id")
+  consultaId   String?  @map("consulta_id")
   dente        String?
   procedimento String
   descricao    String?
@@ -117,8 +117,8 @@ model Procedimento {
 }
 
 model Odontograma {
-  id         Int      @id @default(autoincrement())
-  pacienteId Int      @map("paciente_id")
+  id         String   @id @default(uuid())
+  pacienteId String   @map("paciente_id")
   dente      String
   face       String?
   condicao   String
@@ -132,17 +132,17 @@ model Odontograma {
 }
 
 model LancamentoFinanceiro {
-  id             Int      @id @default(autoincrement())
+  id             String           @id @default(uuid())
   tipo           FinanceiroTipo
   descricao      String
   valor          Float
-  data           String   @default(dbgenerated("now()::date"))
+  data           String           @default(dbgenerated("now()::date"))
   categoria      String?
-  pacienteId     Int?     @map("paciente_id")
-  consultaId     Int?     @map("consulta_id")
+  pacienteId     String?          @map("paciente_id")
+  consultaId     String?          @map("consulta_id")
   status         FinanceiroStatus @default(pago)
-  formaPagamento String?  @map("forma_pagamento")
-  createdAt      DateTime @default(now()) @map("created_at")
+  formaPagamento String?          @map("forma_pagamento")
+  createdAt      DateTime         @default(now()) @map("created_at")
 
   paciente Paciente? @relation(fields: [pacienteId], references: [id], onDelete: SetNull)
   consulta Consulta? @relation(fields: [consultaId], references: [id], onDelete: SetNull)
@@ -151,7 +151,7 @@ model LancamentoFinanceiro {
 }
 
 model CatalogoProcedimento {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   nome      String   @unique
   valor     Float    @default(0)
   createdAt DateTime @default(now()) @map("created_at")
