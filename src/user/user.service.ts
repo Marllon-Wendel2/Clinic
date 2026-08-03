@@ -8,7 +8,8 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma.service.js';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto.js';
-import { UserEntity } from './entities/user.entity.js';
+import { UserEntity, UserEntitySchema } from './entities/user.entity.js';
+import { parseEntity, parseEntities } from '../common/parse-entity.js';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 
@@ -60,7 +61,7 @@ export class UserService implements OnModuleInit {
     if(createUserDto.role === 'admin') {
       throw new InternalServerErrorException("Não é possivel criar ADMIN")
     }
-    
+
     const exists = await this.prisma.usuario.findUnique({
       where: { username: createUserDto.username },
     });
@@ -76,27 +77,32 @@ export class UserService implements OnModuleInit {
         ...createUserDto,
         password: hashedPassword,
       },
+      include: { licencas: true },
     });
 
-    return this.toEntity(user);
+    return parseEntity(user, UserEntitySchema);
   }
 
   async findAll(): Promise<UserEntity[]> {
     const users = await this.prisma.usuario.findMany({
       orderBy: { createdAt: 'desc' },
+      include: { licencas: true },
     });
 
-    return users.map((u) => this.toEntity(u));
+    return parseEntities(users, UserEntitySchema);
   }
 
   async findOne(id: string): Promise<UserEntity> {
-    const user = await this.prisma.usuario.findUnique({ where: { id } });
+    const user = await this.prisma.usuario.findUnique({
+      where: { id },
+      include: { licencas: true },
+    });
 
     if (!user) {
       throw new NotFoundException(`Usuario #${id} nao encontrado`);
     }
 
-    return this.toEntity(user);
+    return parseEntity(user, UserEntitySchema);
   }
 
   async findByUsername(username: string) {
@@ -115,34 +121,20 @@ export class UserService implements OnModuleInit {
     const user = await this.prisma.usuario.update({
       where: { id },
       data,
+      include: { licencas: true },
     });
 
-    return this.toEntity(user);
+    return parseEntity(user, UserEntitySchema);
   }
 
   async remove(id: string): Promise<UserEntity> {
     await this.findOne(id);
 
-    const user = await this.prisma.usuario.delete({ where: { id } });
+    const user = await this.prisma.usuario.delete({
+      where: { id },
+      include: { licencas: true },
+    });
 
-    return this.toEntity(user);
-  }
-
-  private toEntity(user: {
-    id: string;
-    username: string;
-    role: string;
-    nome: string;
-    cro: string | null;
-    createdAt: Date;
-  }): UserEntity {
-    return {
-      id: user.id,
-      username: user.username,
-      role: user.role as 'admin' | 'dentist',
-      nome: user.nome,
-      cro: user.cro,
-      createdAt: user.createdAt,
-    };
+    return parseEntity(user, UserEntitySchema);
   }
 }
