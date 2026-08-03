@@ -8,8 +8,10 @@ export class ZodValidationPipe implements PipeTransform {
         try {
             return this.schema.parse(value);
         } catch (error) {
+            const issues = error.issues ?? error.errors ?? [];
+            const messages = issues.map((e: { message?: string }) => e.message ?? 'Erro desconhecido');
             throw new BadRequestException(
-                `Validação falhou: ${error.errors.map((e) => e.message).join(', ')}`,
+                `Validação falhou: ${messages.join(', ')}`,
             );
         }
     }

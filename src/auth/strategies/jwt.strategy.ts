@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
@@ -6,6 +6,8 @@ import { UserService } from '../../user/user.service.js';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  private readonly logger = new Logger(JwtStrategy.name);
+
   constructor(
     configService: ConfigService,
     private readonly userService: UserService,
@@ -18,12 +20,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { sub: string; username: string }) {
-    const user = await this.userService.findOne(payload.sub);
+    try {
+      const user = await this.userService.findOne(payload.sub);
 
-    if (!user) {
-      throw new UnauthorizedException();
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+
+      return { id: user.id, username: user.username, role: user.role };
+    } catch (error) {
+      this.logger.error(`Erro na validação do JWT: ${error.message}`, error.stack);
+      throw new UnauthorizedException('Token inválido');
     }
-
-    return { id: user.id, username: user.username, role: user.role };
   }
 }
