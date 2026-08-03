@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Usuario: 'Usuario',
+  Licenca: 'Licenca',
   Paciente: 'Paciente',
   Consulta: 'Consulta',
   Procedimento: 'Procedimento',
@@ -88,6 +89,17 @@ export const UsuarioScalarFieldEnum = {
 } as const
 
 export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
+
+
+export const LicencaScalarFieldEnum = {
+  id: 'id',
+  usuarioId: 'usuarioId',
+  tier: 'tier',
+  startDate: 'startDate',
+  endDate: 'endDate'
+} as const
+
+export type LicencaScalarFieldEnum = (typeof LicencaScalarFieldEnum)[keyof typeof LicencaScalarFieldEnum]
 
 
 export const PacienteScalarFieldEnum = {

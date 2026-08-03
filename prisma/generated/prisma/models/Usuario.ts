@@ -200,6 +200,7 @@ export type UsuarioWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   consultasAtendidas?: Prisma.ConsultaListRelationFilter
   pacientesVinculados?: Prisma.PacienteListRelationFilter
+  licencas?: Prisma.LicencaListRelationFilter
 }
 
 export type UsuarioOrderByWithRelationInput = {
@@ -212,6 +213,7 @@ export type UsuarioOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   consultasAtendidas?: Prisma.ConsultaOrderByRelationAggregateInput
   pacientesVinculados?: Prisma.PacienteOrderByRelationAggregateInput
+  licencas?: Prisma.LicencaOrderByRelationAggregateInput
 }
 
 export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -227,6 +229,7 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   consultasAtendidas?: Prisma.ConsultaListRelationFilter
   pacientesVinculados?: Prisma.PacienteListRelationFilter
+  licencas?: Prisma.LicencaListRelationFilter
 }, "id" | "username">
 
 export type UsuarioOrderByWithAggregationInput = {
@@ -265,6 +268,7 @@ export type UsuarioCreateInput = {
   createdAt?: Date | string
   consultasAtendidas?: Prisma.ConsultaCreateNestedManyWithoutDentistaInput
   pacientesVinculados?: Prisma.PacienteCreateNestedManyWithoutUsuarioResponsavelInput
+  licencas?: Prisma.LicencaCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateInput = {
@@ -277,6 +281,7 @@ export type UsuarioUncheckedCreateInput = {
   createdAt?: Date | string
   consultasAtendidas?: Prisma.ConsultaUncheckedCreateNestedManyWithoutDentistaInput
   pacientesVinculados?: Prisma.PacienteUncheckedCreateNestedManyWithoutUsuarioResponsavelInput
+  licencas?: Prisma.LicencaUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUpdateInput = {
@@ -289,6 +294,7 @@ export type UsuarioUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultasAtendidas?: Prisma.ConsultaUpdateManyWithoutDentistaNestedInput
   pacientesVinculados?: Prisma.PacienteUpdateManyWithoutUsuarioResponsavelNestedInput
+  licencas?: Prisma.LicencaUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateInput = {
@@ -301,6 +307,7 @@ export type UsuarioUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultasAtendidas?: Prisma.ConsultaUncheckedUpdateManyWithoutDentistaNestedInput
   pacientesVinculados?: Prisma.PacienteUncheckedUpdateManyWithoutUsuarioResponsavelNestedInput
+  licencas?: Prisma.LicencaUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateManyInput = {
@@ -363,6 +370,11 @@ export type UsuarioMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type UsuarioScalarRelationFilter = {
+  is?: Prisma.UsuarioWhereInput
+  isNot?: Prisma.UsuarioWhereInput
+}
+
 export type UsuarioNullableScalarRelationFilter = {
   is?: Prisma.UsuarioWhereInput | null
   isNot?: Prisma.UsuarioWhereInput | null
@@ -382,6 +394,20 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UsuarioCreateNestedOneWithoutLicencasInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutLicencasInput, Prisma.UsuarioUncheckedCreateWithoutLicencasInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutLicencasInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneRequiredWithoutLicencasNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutLicencasInput, Prisma.UsuarioUncheckedCreateWithoutLicencasInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutLicencasInput
+  upsert?: Prisma.UsuarioUpsertWithoutLicencasInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutLicencasInput, Prisma.UsuarioUpdateWithoutLicencasInput>, Prisma.UsuarioUncheckedUpdateWithoutLicencasInput>
 }
 
 export type UsuarioCreateNestedOneWithoutPacientesVinculadosInput = {
@@ -416,6 +442,70 @@ export type UsuarioUpdateOneWithoutConsultasAtendidasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutConsultasAtendidasInput, Prisma.UsuarioUpdateWithoutConsultasAtendidasInput>, Prisma.UsuarioUncheckedUpdateWithoutConsultasAtendidasInput>
 }
 
+export type UsuarioCreateWithoutLicencasInput = {
+  id?: string
+  username: string
+  password: string
+  role: $Enums.UserRole
+  nome: string
+  cro?: string | null
+  createdAt?: Date | string
+  consultasAtendidas?: Prisma.ConsultaCreateNestedManyWithoutDentistaInput
+  pacientesVinculados?: Prisma.PacienteCreateNestedManyWithoutUsuarioResponsavelInput
+}
+
+export type UsuarioUncheckedCreateWithoutLicencasInput = {
+  id?: string
+  username: string
+  password: string
+  role: $Enums.UserRole
+  nome: string
+  cro?: string | null
+  createdAt?: Date | string
+  consultasAtendidas?: Prisma.ConsultaUncheckedCreateNestedManyWithoutDentistaInput
+  pacientesVinculados?: Prisma.PacienteUncheckedCreateNestedManyWithoutUsuarioResponsavelInput
+}
+
+export type UsuarioCreateOrConnectWithoutLicencasInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutLicencasInput, Prisma.UsuarioUncheckedCreateWithoutLicencasInput>
+}
+
+export type UsuarioUpsertWithoutLicencasInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutLicencasInput, Prisma.UsuarioUncheckedUpdateWithoutLicencasInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutLicencasInput, Prisma.UsuarioUncheckedCreateWithoutLicencasInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutLicencasInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutLicencasInput, Prisma.UsuarioUncheckedUpdateWithoutLicencasInput>
+}
+
+export type UsuarioUpdateWithoutLicencasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consultasAtendidas?: Prisma.ConsultaUpdateManyWithoutDentistaNestedInput
+  pacientesVinculados?: Prisma.PacienteUpdateManyWithoutUsuarioResponsavelNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutLicencasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consultasAtendidas?: Prisma.ConsultaUncheckedUpdateManyWithoutDentistaNestedInput
+  pacientesVinculados?: Prisma.PacienteUncheckedUpdateManyWithoutUsuarioResponsavelNestedInput
+}
+
 export type UsuarioCreateWithoutPacientesVinculadosInput = {
   id?: string
   username: string
@@ -425,6 +515,7 @@ export type UsuarioCreateWithoutPacientesVinculadosInput = {
   cro?: string | null
   createdAt?: Date | string
   consultasAtendidas?: Prisma.ConsultaCreateNestedManyWithoutDentistaInput
+  licencas?: Prisma.LicencaCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutPacientesVinculadosInput = {
@@ -436,6 +527,7 @@ export type UsuarioUncheckedCreateWithoutPacientesVinculadosInput = {
   cro?: string | null
   createdAt?: Date | string
   consultasAtendidas?: Prisma.ConsultaUncheckedCreateNestedManyWithoutDentistaInput
+  licencas?: Prisma.LicencaUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutPacientesVinculadosInput = {
@@ -463,6 +555,7 @@ export type UsuarioUpdateWithoutPacientesVinculadosInput = {
   cro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultasAtendidas?: Prisma.ConsultaUpdateManyWithoutDentistaNestedInput
+  licencas?: Prisma.LicencaUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutPacientesVinculadosInput = {
@@ -474,6 +567,7 @@ export type UsuarioUncheckedUpdateWithoutPacientesVinculadosInput = {
   cro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultasAtendidas?: Prisma.ConsultaUncheckedUpdateManyWithoutDentistaNestedInput
+  licencas?: Prisma.LicencaUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateWithoutConsultasAtendidasInput = {
@@ -485,6 +579,7 @@ export type UsuarioCreateWithoutConsultasAtendidasInput = {
   cro?: string | null
   createdAt?: Date | string
   pacientesVinculados?: Prisma.PacienteCreateNestedManyWithoutUsuarioResponsavelInput
+  licencas?: Prisma.LicencaCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutConsultasAtendidasInput = {
@@ -496,6 +591,7 @@ export type UsuarioUncheckedCreateWithoutConsultasAtendidasInput = {
   cro?: string | null
   createdAt?: Date | string
   pacientesVinculados?: Prisma.PacienteUncheckedCreateNestedManyWithoutUsuarioResponsavelInput
+  licencas?: Prisma.LicencaUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutConsultasAtendidasInput = {
@@ -523,6 +619,7 @@ export type UsuarioUpdateWithoutConsultasAtendidasInput = {
   cro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pacientesVinculados?: Prisma.PacienteUpdateManyWithoutUsuarioResponsavelNestedInput
+  licencas?: Prisma.LicencaUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutConsultasAtendidasInput = {
@@ -534,6 +631,7 @@ export type UsuarioUncheckedUpdateWithoutConsultasAtendidasInput = {
   cro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pacientesVinculados?: Prisma.PacienteUncheckedUpdateManyWithoutUsuarioResponsavelNestedInput
+  licencas?: Prisma.LicencaUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 
@@ -544,11 +642,13 @@ export type UsuarioUncheckedUpdateWithoutConsultasAtendidasInput = {
 export type UsuarioCountOutputType = {
   consultasAtendidas: number
   pacientesVinculados: number
+  licencas: number
 }
 
 export type UsuarioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   consultasAtendidas?: boolean | UsuarioCountOutputTypeCountConsultasAtendidasArgs
   pacientesVinculados?: boolean | UsuarioCountOutputTypeCountPacientesVinculadosArgs
+  licencas?: boolean | UsuarioCountOutputTypeCountLicencasArgs
 }
 
 /**
@@ -575,6 +675,13 @@ export type UsuarioCountOutputTypeCountPacientesVinculadosArgs<ExtArgs extends r
   where?: Prisma.PacienteWhereInput
 }
 
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountLicencasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LicencaWhereInput
+}
+
 
 export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -586,6 +693,7 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   consultasAtendidas?: boolean | Prisma.Usuario$consultasAtendidasArgs<ExtArgs>
   pacientesVinculados?: boolean | Prisma.Usuario$pacientesVinculadosArgs<ExtArgs>
+  licencas?: boolean | Prisma.Usuario$licencasArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
 
@@ -623,6 +731,7 @@ export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   consultasAtendidas?: boolean | Prisma.Usuario$consultasAtendidasArgs<ExtArgs>
   pacientesVinculados?: boolean | Prisma.Usuario$pacientesVinculadosArgs<ExtArgs>
+  licencas?: boolean | Prisma.Usuario$licencasArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -633,6 +742,7 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     consultasAtendidas: Prisma.$ConsultaPayload<ExtArgs>[]
     pacientesVinculados: Prisma.$PacientePayload<ExtArgs>[]
+    licencas: Prisma.$LicencaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1038,6 +1148,7 @@ export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   consultasAtendidas<T extends Prisma.Usuario$consultasAtendidasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$consultasAtendidasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pacientesVinculados<T extends Prisma.Usuario$pacientesVinculadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$pacientesVinculadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PacientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  licencas<T extends Prisma.Usuario$licencasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$licencasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LicencaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1512,6 +1623,30 @@ export type Usuario$pacientesVinculadosArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.PacienteScalarFieldEnum | Prisma.PacienteScalarFieldEnum[]
+}
+
+/**
+ * Usuario.licencas
+ */
+export type Usuario$licencasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Licenca
+   */
+  select?: Prisma.LicencaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Licenca
+   */
+  omit?: Prisma.LicencaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LicencaInclude<ExtArgs> | null
+  where?: Prisma.LicencaWhereInput
+  orderBy?: Prisma.LicencaOrderByWithRelationInput | Prisma.LicencaOrderByWithRelationInput[]
+  cursor?: Prisma.LicencaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LicencaScalarFieldEnum | Prisma.LicencaScalarFieldEnum[]
 }
 
 /**

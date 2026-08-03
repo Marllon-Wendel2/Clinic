@@ -45,3 +45,11 @@ export const FinanceiroStatus = {
 } as const
 
 export type FinanceiroStatus = (typeof FinanceiroStatus)[keyof typeof FinanceiroStatus]
+
+
+export const Tier = {
+  basic: 'basic',
+  premium: 'premium'
+} as const
+
+export type Tier = (typeof Tier)[keyof typeof Tier]

@@ -398,6 +398,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Usuario: 'Usuario',
+  Licenca: 'Licenca',
   Paciente: 'Paciente',
   Consulta: 'Consulta',
   Procedimento: 'Procedimento',
@@ -420,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "usuario" | "paciente" | "consulta" | "procedimento" | "odontograma" | "lancamentoFinanceiro" | "catalogoProcedimento" | "config"
+    modelProps: "usuario" | "licenca" | "paciente" | "consulta" | "procedimento" | "odontograma" | "lancamentoFinanceiro" | "catalogoProcedimento" | "config"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -495,6 +496,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UsuarioCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UsuarioCountAggregateOutputType> | number
+        }
+      }
+    }
+    Licenca: {
+      payload: Prisma.$LicencaPayload<ExtArgs>
+      fields: Prisma.LicencaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LicencaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LicencaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>
+        }
+        findFirst: {
+          args: Prisma.LicencaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LicencaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>
+        }
+        findMany: {
+          args: Prisma.LicencaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>[]
+        }
+        create: {
+          args: Prisma.LicencaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>
+        }
+        createMany: {
+          args: Prisma.LicencaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LicencaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>[]
+        }
+        delete: {
+          args: Prisma.LicencaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>
+        }
+        update: {
+          args: Prisma.LicencaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>
+        }
+        deleteMany: {
+          args: Prisma.LicencaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LicencaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LicencaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>[]
+        }
+        upsert: {
+          args: Prisma.LicencaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LicencaPayload>
+        }
+        aggregate: {
+          args: Prisma.LicencaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLicenca>
+        }
+        groupBy: {
+          args: Prisma.LicencaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LicencaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LicencaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LicencaCountAggregateOutputType> | number
         }
       }
     }
@@ -1068,6 +1143,17 @@ export const UsuarioScalarFieldEnum = {
 export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
 
 
+export const LicencaScalarFieldEnum = {
+  id: 'id',
+  usuarioId: 'usuarioId',
+  tier: 'tier',
+  startDate: 'startDate',
+  endDate: 'endDate'
+} as const
+
+export type LicencaScalarFieldEnum = (typeof LicencaScalarFieldEnum)[keyof typeof LicencaScalarFieldEnum]
+
+
 export const PacienteScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
@@ -1243,6 +1329,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Tier'
+ */
+export type EnumTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Tier'>
+    
+
+
+/**
+ * Reference to a field of type 'Tier[]'
+ */
+export type ListEnumTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Tier[]'>
     
 
 
@@ -1467,6 +1567,7 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   usuario?: Prisma.UsuarioOmit
+  licenca?: Prisma.LicencaOmit
   paciente?: Prisma.PacienteOmit
   consulta?: Prisma.ConsultaOmit
   procedimento?: Prisma.ProcedimentoOmit

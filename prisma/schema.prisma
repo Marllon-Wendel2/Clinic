@@ -34,6 +34,11 @@ enum FinanceiroStatus {
   atrasado
 }
 
+enum Tier {
+  basic
+  premium
+}
+
 model Usuario {
   id        String   @id @default(uuid())
   username  String   @unique
@@ -45,8 +50,19 @@ model Usuario {
 
   consultasAtendidas  Consulta[] @relation("Dentista")
   pacientesVinculados Paciente[] @relation("UsuarioResponsavel")
+  licencas            Licenca[]
 
   @@map("usuarios")
+}
+
+model Licenca {
+  id        String   @id @default(uuid())
+  usuarioId String   @map("usuario_id")
+  tier      Tier
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
 }
 
 model Paciente {
