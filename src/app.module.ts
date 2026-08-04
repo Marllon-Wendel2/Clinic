@@ -11,6 +11,7 @@ import { AppoimentModule } from './appoiment/appoiment.module.js';
 import { ProcedureModule } from './procedure/procedure.module.js';
 import { OdontogramModule } from './odontogram/odontogram.module.js';
 import { FinancialModule } from './financial/financial.module.js';
+import { DashboardModule } from './dashboard/dashboard.module.js';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { FinancialModule } from './financial/financial.module.js';
     AppoimentModule,
     ProcedureModule,
     OdontogramModule,
-    FinancialModule
+    FinancialModule,
+    DashboardModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
