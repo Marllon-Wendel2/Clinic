@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { LicenseModule } from './license/license.module.js';
 import { PatientModule } from './patient/patient.module.js';
 import { AppoimentModule } from './appoiment/appoiment.module.js';
+import { ProcedureModule } from './procedure/procedure.module.js';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { AppoimentModule } from './appoiment/appoiment.module.js';
     AuthModule,
     LicenseModule,
     PatientModule,
-    AppoimentModule
+    AppoimentModule,
+    ProcedureModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
