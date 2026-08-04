@@ -48,9 +48,10 @@ model Usuario {
   cro       String?
   createdAt DateTime @default(now()) @map("created_at")
 
-  consultasAtendidas  Consulta[] @relation("Dentista")
-  pacientesVinculados Paciente[] @relation("UsuarioResponsavel")
-  licencas            Licenca[]
+  consultasAtendidas    Consulta[] @relation("Dentista")
+  pacientesVinculados   Paciente[] @relation("UsuarioResponsavel")
+  licencas              Licenca[]
+  odontogramaRegistros  Odontograma[] @relation("Dentista")
 
   @@map("usuarios")
 }
@@ -135,6 +136,7 @@ model Procedimento {
 model Odontograma {
   id         String   @id @default(uuid())
   pacienteId String   @map("paciente_id")
+  dentistaId String?  @map("dentista_id")
   dente      String
   face       String?
   condicao   String
@@ -142,7 +144,8 @@ model Odontograma {
   data       String   @default(dbgenerated("now()::date"))
   createdAt  DateTime @default(now()) @map("created_at")
 
-  paciente Paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  paciente Paciente  @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  dentista Usuario?  @relation("Dentista", fields: [dentistaId], references: [id], onDelete: SetNull)
 
   @@map("odontograma")
 }

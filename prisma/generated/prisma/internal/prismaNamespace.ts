@@ -1213,6 +1213,7 @@ export type ProcedimentoScalarFieldEnum = (typeof ProcedimentoScalarFieldEnum)[k
 export const OdontogramaScalarFieldEnum = {
   id: 'id',
   pacienteId: 'pacienteId',
+  dentistaId: 'dentistaId',
   dente: 'dente',
   face: 'face',
   condicao: 'condicao',
