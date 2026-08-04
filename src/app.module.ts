@@ -10,6 +10,7 @@ import { PatientModule } from './patient/patient.module.js';
 import { AppoimentModule } from './appoiment/appoiment.module.js';
 import { ProcedureModule } from './procedure/procedure.module.js';
 import { OdontogramModule } from './odontogram/odontogram.module.js';
+import { FinancialModule } from './financial/financial.module.js';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { OdontogramModule } from './odontogram/odontogram.module.js';
     PatientModule,
     AppoimentModule,
     ProcedureModule,
-    OdontogramModule
+    OdontogramModule,
+    FinancialModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
