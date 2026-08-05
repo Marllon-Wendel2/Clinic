@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: clinic-backend
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: node dist/main
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRATION
+        value: "3600"
+      - key: NODE_ENV
+        value: "production"
+      - key: PORT
+        value: "3000"
