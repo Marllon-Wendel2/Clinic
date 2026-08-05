@@ -17,7 +17,11 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:5173'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
 
   const dbHost = process.env.DATABASE_URL
     ? process.env.DATABASE_URL.replace(/\/\/.*@/, '//***@')
