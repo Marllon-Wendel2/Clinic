@@ -9,10 +9,39 @@ import { DashboardQueryDto } from './dto/dashboard-query.dto';
 export class DashboardService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getDashboard(query: DashboardQueryDto, user?: { id: string; role: string }): Promise<DashboardEntity> {
+  async getDashboard(query: DashboardQueryDto, user: { id: string; role: string }) {
     try {
       const dateFilter = this.buildDateFilter(query);
       const userFilter = this.buildUserFilter(user);
+
+      const [totalPacientes, consultasPorStatus, financeiro, proximasConsultas, totalConsultas] =
+        await Promise.all([
+          this.prismaService.paciente.count({ where: userFilter.paciente }),
+          this.getConsultasPorStatus(dateFilter, userFilter.consulta),
+          this.getFinanceiro(dateFilter, userFilter.financeiro),
+          this.getProximasConsultas(userFilter.consulta),
+          this.prismaService.consulta.count({ where: { ...dateFilter, ...userFilter.consulta } }),
+        ]);
+
+      const dashboard: DashboardEntity = {
+        totalPacientes,
+        totalConsultas,
+        consultasPorStatus,
+        financeiro,
+        proximasConsultas,
+      };
+
+      return parseEntity(dashboard, DashboardEntitySchema);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async getAdminDashboard(query: DashboardQueryDto) {
+    try {
+      const dateFilter = this.buildDateFilter(query);
+      const userFilter = this.buildUserFilter({ id: '', role: 'admin' });
 
       const [totalPacientes, consultasPorStatus, financeiro, proximasConsultas, totalConsultas] =
         await Promise.all([

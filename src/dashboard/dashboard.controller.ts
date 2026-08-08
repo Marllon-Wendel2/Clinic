@@ -17,9 +17,17 @@ export class DashboardController {
   @Roles('admin', 'dentist')
   async getDashboard(
     @Query(dashboardQueryDto.DashboardQueryPipe) query: dashboardQueryDto.DashboardQueryDto,
-    @Request() req: { user: { id: string; role: string } }
+    @Request() req: { user: { id: string; role: string } },
   ) {
     return this.dashboardService.getDashboard(query, req.user);
+  }
+
+  @Get('admin')
+  @Roles('admin')
+  async getAdminDashboard(
+    @Query(dashboardQueryDto.DashboardQueryPipe) query: dashboardQueryDto.DashboardQueryDto,
+  ) {
+    return this.dashboardService.getAdminDashboard(query);
   }
 
   @Get('summary')
