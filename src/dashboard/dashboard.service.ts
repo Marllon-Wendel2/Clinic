@@ -9,17 +9,18 @@ import { DashboardQueryDto } from './dto/dashboard-query.dto';
 export class DashboardService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getDashboard(query: DashboardQueryDto): Promise<DashboardEntity> {
+  async getDashboard(query: DashboardQueryDto, user?: { id: string; role: string }): Promise<DashboardEntity> {
     try {
       const dateFilter = this.buildDateFilter(query);
+      const userFilter = this.buildUserFilter(user);
 
       const [totalPacientes, consultasPorStatus, financeiro, proximasConsultas, totalConsultas] =
         await Promise.all([
-          this.prismaService.paciente.count(),
-          this.getConsultasPorStatus(dateFilter),
-          this.getFinanceiro(dateFilter),
-          this.getProximasConsultas(),
-          this.prismaService.consulta.count({ where: dateFilter }),
+          this.prismaService.paciente.count({ where: userFilter.paciente }),
+          this.getConsultasPorStatus(dateFilter, userFilter.consulta),
+          this.getFinanceiro(dateFilter, userFilter.financeiro),
+          this.getProximasConsultas(userFilter.consulta),
+          this.prismaService.consulta.count({ where: { ...dateFilter, ...userFilter.consulta } }),
         ]);
 
       const dashboard: DashboardEntity = {
@@ -37,24 +38,27 @@ export class DashboardService {
     }
   }
 
-  async getSummary(): Promise<DashboardSummaryEntity> {
+  async getSummary(user?: { id: string; role: string }): Promise<DashboardSummaryEntity> {
     try {
       const now = new Date();
       const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const userFilter = this.buildUserFilter(user);
 
       const [totalPacientes, totalConsultas, consultasHoje, receitasMes, despesasMes] =
         await Promise.all([
-          this.prismaService.paciente.count(),
-          this.prismaService.consulta.count(),
+          this.prismaService.paciente.count({ where: userFilter.paciente }),
+          this.prismaService.consulta.count({ where: userFilter.consulta }),
           this.prismaService.consulta.count({
             where: {
               data: now.toISOString().split('T')[0],
+              ...userFilter.consulta,
             },
           }),
           this.prismaService.lancamentoFinanceiro.aggregate({
             where: {
               tipo: 'receita',
               data: { gte: startOfMonth.toISOString().split('T')[0] },
+              ...userFilter.financeiro,
             },
             _sum: { valor: true },
           }),
@@ -62,6 +66,7 @@ export class DashboardService {
             where: {
               tipo: 'despesa',
               data: { gte: startOfMonth.toISOString().split('T')[0] },
+              ...userFilter.financeiro,
             },
             _sum: { valor: true },
           }),
@@ -80,6 +85,22 @@ export class DashboardService {
       console.log(error);
       throw new InternalServerErrorException(error);
     }
+  }
+
+  private buildUserFilter(user?: { id: string; role: string }) {
+    if (!user || user.role === 'admin') {
+      return {
+        paciente: {},
+        consulta: {},
+        financeiro: {},
+      };
+    }
+
+    return {
+      paciente: { usuarioId: user.id },
+      consulta: { dentistaId: user.id },
+      financeiro: { usuarioId: user.id },
+    };
   }
 
   private buildDateFilter(query: DashboardQueryDto) {
@@ -121,10 +142,10 @@ export class DashboardService {
     return {};
   }
 
-  private async getConsultasPorStatus(dateFilter: Record<string, unknown>) {
+  private async getConsultasPorStatus(dateFilter: Record<string, unknown>, userFilter: Record<string, unknown>) {
     const statusCounts = await this.prismaService.consulta.groupBy({
       by: ['status'],
-      where: dateFilter,
+      where: { ...dateFilter, ...userFilter },
       _count: { id: true },
     });
 
@@ -144,22 +165,22 @@ export class DashboardService {
     return counts;
   }
 
-  private async getFinanceiro(dateFilter: Record<string, unknown>) {
+  private async getFinanceiro(dateFilter: Record<string, unknown>, userFilter: Record<string, unknown>) {
     const [receitas, despesas, receitasRecebidas, receitasPendentes] = await Promise.all([
       this.prismaService.lancamentoFinanceiro.aggregate({
-        where: { tipo: 'receita', ...dateFilter },
+        where: { tipo: 'receita', ...dateFilter, ...userFilter },
         _sum: { valor: true },
       }),
       this.prismaService.lancamentoFinanceiro.aggregate({
-        where: { tipo: 'despesa', ...dateFilter },
+        where: { tipo: 'despesa', ...dateFilter, ...userFilter },
         _sum: { valor: true },
       }),
       this.prismaService.lancamentoFinanceiro.aggregate({
-        where: { tipo: 'receita', status: 'pago', ...dateFilter },
+        where: { tipo: 'receita', status: 'pago', ...dateFilter, ...userFilter },
         _sum: { valor: true },
       }),
       this.prismaService.lancamentoFinanceiro.aggregate({
-        where: { tipo: 'receita', status: 'pendente', ...dateFilter },
+        where: { tipo: 'receita', status: 'pendente', ...dateFilter, ...userFilter },
         _sum: { valor: true },
       }),
     ]);
@@ -176,10 +197,11 @@ export class DashboardService {
     };
   }
 
-  private async getProximasConsultas() {
+  private async getProximasConsultas(userFilter: Record<string, unknown>) {
     const consultas = await this.prismaService.consulta.findMany({
       where: {
         status: { in: ['agendado', 'confirmado'] },
+        ...userFilter,
       },
       orderBy: [{ data: 'asc' }, { hora: 'asc' }],
       take: 5,

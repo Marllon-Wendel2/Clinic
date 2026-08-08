@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   InternalServerErrorException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateFinancialDto } from './dto/create-financial.dto';
@@ -13,7 +14,7 @@ import { parseEntity, parseEntities } from 'src/common/parse-entity';
 export class FinancialService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createFinancialDto: CreateFinancialDto): Promise<FinancialEntity> {
+  async create(createFinancialDto: CreateFinancialDto, user?: { id: string; role: string }): Promise<FinancialEntity> {
     try {
       if (createFinancialDto.pacienteId) {
         const patient = await this.prismaService.paciente.findUnique({
@@ -22,6 +23,10 @@ export class FinancialService {
 
         if (!patient) {
           throw new NotFoundException('Paciente nao encontrado');
+        }
+
+        if (user?.role === 'dentist' && patient.usuarioId !== user.id) {
+          throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
         }
       }
 
@@ -33,7 +38,13 @@ export class FinancialService {
         if (!consultation) {
           throw new NotFoundException('Consulta nao encontrada');
         }
+
+        if (user?.role === 'dentist' && consultation.dentistaId !== user.id) {
+          throw new ForbiddenException('Acesso negado: consulta não pertence a este usuário');
+        }
       }
+
+      const usuarioId = user?.role === 'dentist' ? user.id : createFinancialDto.usuarioId ?? null;
 
       const financial = await this.prismaService.lancamentoFinanceiro.create({
         data: {
@@ -44,6 +55,7 @@ export class FinancialService {
           ...(createFinancialDto.categoria && { categoria: createFinancialDto.categoria }),
           ...(createFinancialDto.pacienteId && { pacienteId: createFinancialDto.pacienteId }),
           ...(createFinancialDto.consultaId && { consultaId: createFinancialDto.consultaId }),
+          ...(usuarioId && { usuarioId }),
           status: createFinancialDto.status,
           ...(createFinancialDto.formaPagamento && { formaPagamento: createFinancialDto.formaPagamento }),
         },
@@ -51,15 +63,19 @@ export class FinancialService {
 
       return parseEntity(financial, FinancialEntitySchema);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findAll(): Promise<FinancialEntity[]> {
+  async findAll(user?: { id: string; role: string }): Promise<FinancialEntity[]> {
     try {
-      const financials = await this.prismaService.lancamentoFinanceiro.findMany();
+      const where = user?.role === 'dentist'
+        ? { usuarioId: user.id }
+        : {};
+
+      const financials = await this.prismaService.lancamentoFinanceiro.findMany({ where });
       return parseEntities(financials, FinancialEntitySchema);
     } catch (error) {
       console.log(error);
@@ -67,7 +83,7 @@ export class FinancialService {
     }
   }
 
-  async findOne(id: string): Promise<FinancialEntity> {
+  async findOne(id: string, user?: { id: string; role: string }): Promise<FinancialEntity> {
     try {
       const financial = await this.prismaService.lancamentoFinanceiro.findUnique({
         where: { id },
@@ -77,41 +93,63 @@ export class FinancialService {
         throw new NotFoundException('Lancamento financeiro nao encontrado');
       }
 
+      if (user?.role === 'dentist' && financial.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: lançamento não pertence a este usuário');
+      }
+
       return parseEntity(financial, FinancialEntitySchema);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findByPaciente(pacienteId: string): Promise<FinancialEntity[]> {
+  async findByPaciente(pacienteId: string, user?: { id: string; role: string }): Promise<FinancialEntity[]> {
     try {
+      if (user?.role === 'dentist') {
+        const patient = await this.prismaService.paciente.findUnique({ where: { id: pacienteId } });
+        if (!patient) throw new NotFoundException('Paciente não encontrado');
+        if (patient.usuarioId !== user.id) {
+          throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
+        }
+      }
+
       const financials = await this.prismaService.lancamentoFinanceiro.findMany({
         where: { pacienteId },
       });
 
       return parseEntities(financials, FinancialEntitySchema);
     } catch (error) {
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findByConsulta(consultaId: string): Promise<FinancialEntity[]> {
+  async findByConsulta(consultaId: string, user?: { id: string; role: string }): Promise<FinancialEntity[]> {
     try {
+      if (user?.role === 'dentist') {
+        const consultation = await this.prismaService.consulta.findUnique({ where: { id: consultaId } });
+        if (!consultation) throw new NotFoundException('Consulta não encontrada');
+        if (consultation.dentistaId !== user.id) {
+          throw new ForbiddenException('Acesso negado: consulta não pertence a este usuário');
+        }
+      }
+
       const financials = await this.prismaService.lancamentoFinanceiro.findMany({
         where: { consultaId },
       });
 
       return parseEntities(financials, FinancialEntitySchema);
     } catch (error) {
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async update(id: string, updateFinancialDto: UpdateFinancialDto): Promise<FinancialEntity> {
+  async update(id: string, updateFinancialDto: UpdateFinancialDto, user?: { id: string; role: string }): Promise<FinancialEntity> {
     try {
       const existing = await this.prismaService.lancamentoFinanceiro.findUnique({
         where: { id },
@@ -119,6 +157,10 @@ export class FinancialService {
 
       if (!existing) {
         throw new NotFoundException('Lancamento financeiro nao encontrado');
+      }
+
+      if (user?.role === 'dentist' && existing.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: lançamento não pertence a este usuário');
       }
 
       if (updateFinancialDto.pacienteId) {
@@ -158,7 +200,7 @@ export class FinancialService {
 
       return parseEntity(financial, FinancialEntitySchema);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }

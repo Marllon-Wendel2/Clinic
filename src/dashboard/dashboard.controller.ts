@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Query, UseGuards, Request } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { RolesGuard } from "src/auth/guards/roles.guard";
 import { DashboardService } from "./dashboard.service";
@@ -15,15 +15,18 @@ export class DashboardController {
 
   @Get()
   @Roles('admin', 'dentist')
-  async getDashboard(@Query(dashboardQueryDto.DashboardQueryPipe) query: dashboardQueryDto.DashboardQueryDto) {
-    return this.dashboardService.getDashboard(query);
+  async getDashboard(
+    @Query(dashboardQueryDto.DashboardQueryPipe) query: dashboardQueryDto.DashboardQueryDto,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.dashboardService.getDashboard(query, req.user);
   }
 
   @Get('summary')
   @Roles('admin', 'dentist')
   @Premium()
   @UseGuards(PremiumGuard)
-  async getSummary() {
-    return this.dashboardService.getSummary();
+  async getSummary(@Request() req: { user: { id: string; role: string } }) {
+    return this.dashboardService.getSummary(req.user);
   }
 }

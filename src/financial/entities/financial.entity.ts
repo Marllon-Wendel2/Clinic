@@ -12,6 +12,7 @@ export const FinancialEntitySchema = z.object({
   categoria: z.string().nullable(),
   pacienteId: z.string().uuid().nullable(),
   consultaId: z.string().uuid().nullable(),
+  usuarioId: z.string().uuid().nullable(),
   status: z.preprocess(
     (val) => val as string,
     z.enum(['pago', 'pendente', 'cancelado', 'atrasado']),

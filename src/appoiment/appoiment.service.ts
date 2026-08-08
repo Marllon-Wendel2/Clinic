@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   InternalServerErrorException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateAppoimentDto } from './dto/create-appoiment.dto';
@@ -14,7 +15,7 @@ import { parseEntity, parseEntities } from 'src/common/parse-entity';
 export class AppoimentService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createAppoimentDto: CreateAppoimentDto): Promise<AppoimentEntity> {
+  async create(createAppoimentDto: CreateAppoimentDto, user?: { id: string; role: string }): Promise<AppoimentEntity> {
     try {
       const patient = await this.prismaService.paciente.findUnique({
         where: { id: createAppoimentDto.pacienteId },
@@ -22,6 +23,10 @@ export class AppoimentService {
 
       if (!patient) {
         throw new NotFoundException('Paciente nao encontrado');
+      }
+
+      if (user && user.role === 'dentist' && patient.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
       }
 
       if (createAppoimentDto.dentistaId) {
@@ -50,15 +55,19 @@ export class AppoimentService {
 
       return parseEntity(appoiment, AppoimentEntitySchema);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findAll(): Promise<AppoimentEntity[]> {
+  async findAll(user?: { id: string; role: string }): Promise<AppoimentEntity[]> {
     try {
-      const appoiments = await this.prismaService.consulta.findMany();
+      const where = user?.role === 'dentist'
+        ? { dentistaId: user.id }
+        : {};
+
+      const appoiments = await this.prismaService.consulta.findMany({ where });
       return parseEntities(appoiments, AppoimentEntitySchema);
     } catch (error) {
       console.log(error);
@@ -66,58 +75,85 @@ export class AppoimentService {
     }
   }
 
-  async findOne(id: string): Promise<AppoimentEntity> {
+  async findOne(id: string, user?: { id: string; role: string }): Promise<AppoimentEntity> {
     try {
       const appoiment = await this.prismaService.consulta.findUnique({
         where: { id },
+        include: { paciente: { select: { usuarioId: true } } },
       });
 
       if (!appoiment) {
         throw new NotFoundException('Consulta nao encontrada');
       }
 
+      if (user?.role === 'dentist') {
+        if (appoiment.dentistaId !== user.id && appoiment.paciente?.usuarioId !== user.id) {
+          throw new ForbiddenException('Acesso negado: consulta não pertence a este usuário');
+        }
+      }
+
       return parseEntity(appoiment, AppoimentEntitySchema);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findByPaciente(pacienteId: string): Promise<AppoimentEntity[]> {
+  async findByPaciente(pacienteId: string, user?: { id: string; role: string }): Promise<AppoimentEntity[]> {
     try {
+      const patient = await this.prismaService.paciente.findUnique({ where: { id: pacienteId } });
+      if (!patient) throw new NotFoundException('Paciente não encontrado');
+
+      if (user?.role === 'dentist' && patient.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
+      }
+
       const appoiments = await this.prismaService.consulta.findMany({
         where: { pacienteId },
       });
 
       return parseEntities(appoiments, AppoimentEntitySchema);
     } catch (error) {
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findByDentista(dentistaId: string): Promise<AppoimentEntity[]> {
+  async findByDentista(dentistaId: string, user?: { id: string; role: string }): Promise<AppoimentEntity[]> {
     try {
+      if (user?.role === 'dentist' && dentistaId !== user.id) {
+        throw new ForbiddenException('Acesso negado: não é possível ver consultas de outro dentista');
+      }
+
       const appoiments = await this.prismaService.consulta.findMany({
         where: { dentistaId },
       });
 
       return parseEntities(appoiments, AppoimentEntitySchema);
     } catch (error) {
+      if (error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async update(id: string, updateAppoimentDto: UpdateAppoimentDto): Promise<AppoimentEntity> {
+  async update(id: string, updateAppoimentDto: UpdateAppoimentDto, user?: { id: string; role: string }): Promise<AppoimentEntity> {
     try {
       const existing = await this.prismaService.consulta.findUnique({
         where: { id },
+        include: { paciente: { select: { usuarioId: true } } },
       });
 
       if (!existing) {
         throw new NotFoundException('Consulta nao encontrada');
+      }
+
+      if (user?.role === 'dentist') {
+        if (existing.dentistaId !== user.id && existing.paciente?.usuarioId !== user.id) {
+          throw new ForbiddenException('Acesso negado: consulta não pertence a este usuário');
+        }
       }
 
       if (updateAppoimentDto.pacienteId) {
@@ -157,7 +193,7 @@ export class AppoimentService {
 
       return parseEntity(appoiment, AppoimentEntitySchema);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }

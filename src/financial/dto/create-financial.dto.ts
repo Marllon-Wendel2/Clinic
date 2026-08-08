@@ -9,6 +9,7 @@ export const CreateFinancialSchema = z.object({
   categoria: z.string().optional(),
   pacienteId: z.string().uuid('ID do paciente invalido').optional(),
   consultaId: z.string().uuid('ID da consulta invalido').optional(),
+  usuarioId: z.string().uuid('ID do usuario invalido').optional(),
   status: z.enum(['pago', 'pendente', 'cancelado', 'atrasado']).default('pago'),
   formaPagamento: z.string().optional(),
 });

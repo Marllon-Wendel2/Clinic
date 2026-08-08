@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../../user/user.service.js';
+import { PrismaService } from '../../prisma.service.js';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -11,6 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     configService: ConfigService,
     private readonly userService: UserService,
+    private readonly prisma: PrismaService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -27,7 +29,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         throw new UnauthorizedException();
       }
 
-      return { id: user.id, username: user.username, role: user.role };
+      const licenca = await this.prisma.licenca.findFirst({
+        where: { usuarioId: user.id },
+        orderBy: { startDate: 'desc' },
+      });
+
+      const tier = licenca?.tier ?? 'basic';
+
+      return { id: user.id, username: user.username, role: user.role, tier };
     } catch (error) {
       this.logger.error(`Erro na validação do JWT: ${error.message}`, error.stack);
       throw new UnauthorizedException('Token inválido');

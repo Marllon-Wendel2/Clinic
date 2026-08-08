@@ -18,7 +18,7 @@ export class PatientController {
   @Post()
   create(
     @Body(CreatePatientPipe) createPatientDto: CreatePatientDto,
-    @Request() req: { user?: { id: string}}
+    @Request() req: { user?: { id: string; role: string }}
   ) {
     const usuarioId = findUserLogged(createPatientDto, req);
     return this.patienService.createPatient(createPatientDto, usuarioId);
@@ -27,8 +27,13 @@ export class PatientController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Get('dentist')
-  findPatientsByUserId(@Param('userId') userId: string) {
-    return this.patienService.findPatientsByUserId(userId);
+  findPatientsByUserId(
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    if (req.user.role === 'admin') {
+      return this.patienService.findAllPacients();
+    }
+    return this.patienService.findPatientsByUserId(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -41,21 +46,31 @@ export class PatientController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Get(':pacientId')
-  findUnicPatientById(@Param('pacientId') pacientId: string) {
-    return this.patienService.findUnicPatientById(pacientId);
+  findUnicPatientById(
+    @Param('pacientId') pacientId: string,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.patienService.findUnicPatientById(pacientId, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Patch(':pacientId')
-  updatePatient(@Param('pacientId') pacientId: string, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patienService.updatePatient(pacientId, updatePatientDto);
+  updatePatient(
+    @Param('pacientId') pacientId: string,
+    @Body() updatePatientDto: UpdatePatientDto,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.patienService.updatePatient(pacientId, updatePatientDto, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Delete(':pacientId')
-  removePatient(@Param('pacientId') pacientId: string) {
-    return this.patienService.removePatient(pacientId);
+  removePatient(
+    @Param('pacientId') pacientId: string,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.patienService.removePatient(pacientId, req.user);
   }
 }

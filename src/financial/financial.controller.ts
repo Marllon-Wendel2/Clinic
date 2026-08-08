@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { FinancialService } from './financial.service';
 import type { CreateFinancialDto } from './dto/create-financial.dto';
 import { CreateFinancialPipe } from './dto/create-financial.dto';
@@ -15,43 +15,59 @@ export class FinancialController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Post()
-  create(@Body(CreateFinancialPipe) createFinancialDto: CreateFinancialDto) {
-    return this.financialService.create(createFinancialDto);
+  create(
+    @Body(CreateFinancialPipe) createFinancialDto: CreateFinancialDto,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.financialService.create(createFinancialDto, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
+  @Roles('admin', 'dentist')
   @Get()
-  findAll() {
-    return this.financialService.findAll();
+  findAll(@Request() req: { user: { id: string; role: string } }) {
+    return this.financialService.findAll(req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Get('patient/:pacientId')
-  findByPaciente(@Param('pacientId') pacientId: string) {
-    return this.financialService.findByPaciente(pacientId);
+  findByPaciente(
+    @Param('pacientId') pacientId: string,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.financialService.findByPaciente(pacientId, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Get('consult/:consultId')
-  findByConsulta(@Param('consultId') consultId: string) {
-    return this.financialService.findByConsulta(consultId);
+  findByConsulta(
+    @Param('consultId') consultId: string,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.financialService.findByConsulta(consultId, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.financialService.findOne(id);
+  findOne(
+    @Param('id') id: string,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.financialService.findOne(id, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'dentist')
   @Patch(':id')
-  update(@Param('id') id: string, @Body(UpdateFinancialPipe) updateFinancialDto: UpdateFinancialDto) {
-    return this.financialService.update(id, updateFinancialDto);
+  update(
+    @Param('id') id: string,
+    @Body(UpdateFinancialPipe) updateFinancialDto: UpdateFinancialDto,
+    @Request() req: { user: { id: string; role: string } }
+  ) {
+    return this.financialService.update(id, updateFinancialDto, req.user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

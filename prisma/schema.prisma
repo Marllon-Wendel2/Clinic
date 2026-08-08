@@ -50,6 +50,7 @@ model Usuario {
   pacientesVinculados   Paciente[] @relation("UsuarioResponsavel")
   licencas              Licenca[]
   odontogramaRegistros  Odontograma[] @relation("Dentista")
+  lancamentosFinanceiros LancamentoFinanceiro[]
 
   @@map("usuarios")
 }
@@ -157,12 +158,14 @@ model LancamentoFinanceiro {
   categoria      String?
   pacienteId     String?          @map("paciente_id")
   consultaId     String?          @map("consulta_id")
+  usuarioId      String?          @map("usuario_id")
   status         FinanceiroStatus @default(pago)
   formaPagamento String?          @map("forma_pagamento")
   createdAt      DateTime         @default(now()) @map("created_at")
 
   paciente Paciente? @relation(fields: [pacienteId], references: [id], onDelete: SetNull)
   consulta Consulta? @relation(fields: [consultaId], references: [id], onDelete: SetNull)
+  usuario  Usuario?  @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
 
   @@map("financeiro")
 }

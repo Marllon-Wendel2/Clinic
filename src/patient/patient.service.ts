@@ -4,6 +4,7 @@ import {
   ConflictException,
   BadRequestException,
   InternalServerErrorException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePatientDto, UpdatePatientDto} from './dto/patient.dto';
@@ -79,24 +80,36 @@ export class PatientService {
     }
   }
 
-  async findUnicPatientById(id: string) {
+  async findUnicPatientById(id: string, user?: { id: string; role: string }) {
     try {
       const patient = await this.prismaService.paciente.findUnique({
         where: { id },
       });
   
       if(!patient) throw new NotFoundException('Paciente não encontrado');
+
+      if (user && user.role === 'dentist' && patient.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
+      }
   
       return patient;
     } catch (error) {
+      if (error instanceof ForbiddenException || error instanceof NotFoundException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async updatePatient(id: string, updatePatientDto: UpdatePatientDto): Promise<PatientEntity> {
+  async updatePatient(id: string, updatePatientDto: UpdatePatientDto, user?: { id: string; role: string }): Promise<PatientEntity> {
     try {
-            const paciente = await this.prismaService.paciente.update({
+      const existing = await this.prismaService.paciente.findUnique({ where: { id } });
+      if (!existing) throw new NotFoundException('Paciente não encontrado');
+
+      if (user && user.role === 'dentist' && existing.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
+      }
+
+      const paciente = await this.prismaService.paciente.update({
         where: { id },
         data: {
           ...(updatePatientDto.nome !== undefined && { nome: updatePatientDto.nome }),
@@ -118,19 +131,28 @@ export class PatientService {
 
       return PatientEntitySchema.parse(paciente);
     } catch (error) {
+      if (error instanceof ForbiddenException || error instanceof NotFoundException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
 
-  async removePatient(id: string): Promise<PatientEntity> {
+  async removePatient(id: string, user?: { id: string; role: string }): Promise<PatientEntity> {
     try {
+      const existing = await this.prismaService.paciente.findUnique({ where: { id } });
+      if (!existing) throw new NotFoundException('Paciente não encontrado');
+
+      if (user && user.role === 'dentist' && existing.usuarioId !== user.id) {
+        throw new ForbiddenException('Acesso negado: paciente não pertence a este usuário');
+      }
+
       const patient = await this.prismaService.paciente.delete({
         where: { id },
       });
 
       return PatientEntitySchema.parse(patient);
     } catch (error) {
+      if (error instanceof ForbiddenException || error instanceof NotFoundException) throw error;
       console.log(error);
       throw new InternalServerErrorException(error);
     }
