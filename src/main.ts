@@ -18,7 +18,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'https://trippant-samira-shiny.ngrok-free.dev'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
