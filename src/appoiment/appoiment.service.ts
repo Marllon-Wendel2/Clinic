@@ -15,6 +15,48 @@ import { parseEntity, parseEntities } from 'src/common/parse-entity';
 export class AppoimentService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  private async checkConflict(
+    pacienteId: string,
+    dentistaId: string | null | undefined,
+    data: string,
+    hora: string,
+    duracao: number,
+    excludeId?: string,
+  ): Promise<void> {
+    const existingConsultas = await this.prismaService.consulta.findMany({
+      where: {
+        data,
+        status: { not: 'cancelado' },
+        ...(excludeId && { id: { not: excludeId } }),
+        OR: [
+          { pacienteId },
+          ...(dentistaId ? [{ dentistaId }] : []),
+        ],
+      },
+    });
+
+    for (const existing of existingConsultas) {
+      const existingStart = this.timeToMinutes(existing.hora);
+      const existingEnd = existingStart + existing.duracao;
+      const newStart = this.timeToMinutes(hora);
+      const newEnd = newStart + duracao;
+
+      if (newStart < existingEnd && existingStart < newEnd) {
+        if (existing.pacienteId === pacienteId) {
+          throw new BadRequestException('Paciente já possui agendamento neste horário');
+        }
+        if (dentistaId && existing.dentistaId === dentistaId) {
+          throw new BadRequestException('Dentista já possui agendamento neste horário');
+        }
+      }
+    }
+  }
+
+  private timeToMinutes(time: string): number {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
   async create(createAppoimentDto: CreateAppoimentDto, user?: { id: string; role: string }): Promise<AppoimentEntity> {
     try {
       const patient = await this.prismaService.paciente.findUnique({
@@ -39,6 +81,14 @@ export class AppoimentService {
         }
       }
 
+      await this.checkConflict(
+        createAppoimentDto.pacienteId,
+        createAppoimentDto.dentistaId,
+        createAppoimentDto.data,
+        createAppoimentDto.hora,
+        createAppoimentDto.duracao,
+      );
+
       const appoiment = await this.prismaService.consulta.create({
         data: {
           pacienteId: createAppoimentDto.pacienteId,
@@ -51,6 +101,7 @@ export class AppoimentService {
           observacoes: createAppoimentDto.observacoes ?? null,
           valor: createAppoimentDto.valor,
         },
+        include: { paciente: true },
       });
 
       return parseEntity(appoiment, AppoimentEntitySchema);
@@ -67,7 +118,10 @@ export class AppoimentService {
         ? { dentistaId: user.id }
         : {};
 
-      const appoiments = await this.prismaService.consulta.findMany({ where });
+      const appoiments = await this.prismaService.consulta.findMany({
+        where,
+        include: { paciente: true },
+      });
       return parseEntities(appoiments, AppoimentEntitySchema);
     } catch (error) {
       console.log(error);
@@ -79,7 +133,7 @@ export class AppoimentService {
     try {
       const appoiment = await this.prismaService.consulta.findUnique({
         where: { id },
-        include: { paciente: { select: { usuarioId: true } } },
+        include: { paciente: true },
       });
 
       if (!appoiment) {
@@ -111,6 +165,7 @@ export class AppoimentService {
 
       const appoiments = await this.prismaService.consulta.findMany({
         where: { pacienteId },
+        include: { paciente: true },
       });
 
       return parseEntities(appoiments, AppoimentEntitySchema);
@@ -129,6 +184,7 @@ export class AppoimentService {
 
       const appoiments = await this.prismaService.consulta.findMany({
         where: { dentistaId },
+        include: { paciente: true },
       });
 
       return parseEntities(appoiments, AppoimentEntitySchema);
@@ -143,7 +199,7 @@ export class AppoimentService {
     try {
       const existing = await this.prismaService.consulta.findUnique({
         where: { id },
-        include: { paciente: { select: { usuarioId: true } } },
+        include: { paciente: true },
       });
 
       if (!existing) {
@@ -176,6 +232,31 @@ export class AppoimentService {
         }
       }
 
+      const effectivePacienteId = updateAppoimentDto.pacienteId ?? existing.pacienteId;
+      const effectiveDentistaId = updateAppoimentDto.dentistaId !== undefined
+        ? updateAppoimentDto.dentistaId
+        : existing.dentistaId;
+      const effectiveData = updateAppoimentDto.data ?? existing.data;
+      const effectiveHora = updateAppoimentDto.hora ?? existing.hora;
+      const effectiveDuracao = updateAppoimentDto.duracao ?? existing.duracao;
+
+      if (
+        effectivePacienteId !== existing.pacienteId ||
+        effectiveDentistaId !== existing.dentistaId ||
+        effectiveData !== existing.data ||
+        effectiveHora !== existing.hora ||
+        effectiveDuracao !== existing.duracao
+      ) {
+        await this.checkConflict(
+          effectivePacienteId,
+          effectiveDentistaId,
+          effectiveData,
+          effectiveHora,
+          effectiveDuracao,
+          id,
+        );
+      }
+
       const appoiment = await this.prismaService.consulta.update({
         where: { id },
         data: {
@@ -189,6 +270,7 @@ export class AppoimentService {
           ...(updateAppoimentDto.observacoes !== undefined && { observacoes: updateAppoimentDto.observacoes ?? null }),
           ...(updateAppoimentDto.valor !== undefined && { valor: updateAppoimentDto.valor }),
         },
+        include: { paciente: true },
       });
 
       return parseEntity(appoiment, AppoimentEntitySchema);
@@ -203,6 +285,7 @@ export class AppoimentService {
     try {
       const appoiment = await this.prismaService.consulta.delete({
         where: { id },
+        include: { paciente: true },
       });
 
       return parseEntity(appoiment, AppoimentEntitySchema);
